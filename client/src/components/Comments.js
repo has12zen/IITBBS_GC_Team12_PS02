@@ -1,5 +1,5 @@
 import React from "react";
-import jf from "../images/1.jpg";
+import jf from "../assets/images/1.jpg";
 import { Box, Typography, Chip, Avatar } from "@mui/material";
 import { sizing } from "@mui/system";
 

@@ -26,11 +26,12 @@ exports.verifyToken = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
-  // console.log(req.user);
-  //   let user = await User.findOne({ email: req.user.email });
-  //   if (!user) return next(new AppError("User not found", 404));
-  //   req.user = user;
-  //   next();
+  console.log(req.user);
+  let user = await User.findOne({ email: req.user.email });
+  if (!user) return next(new AppError("User not found", 404));
+  req.user = user;
+
+  next();
 });
 
 exports.login = catchAsync(async (req, res, next) => {
