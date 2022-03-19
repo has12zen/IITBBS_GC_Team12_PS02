@@ -12,3 +12,4 @@ exports.getAllVotesByParentId = catchAsync(async (req, res, next) => {
     },
   });
 });
+exports.createVote = factory.createOne(Vote);

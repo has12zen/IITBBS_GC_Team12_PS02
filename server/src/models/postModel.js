@@ -5,7 +5,6 @@ const postSchema = new Schema(
   {
     title: {
       type: String,
-      required: true,
       maxlength: 100,
       minlength: 10,
     },
@@ -29,7 +28,27 @@ const postSchema = new Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
+postSchema.virtual("votes", {
+  ref: "Vote",
+  localField: "_id",
+  foreignField: "parentId",
+});
+
+postSchema.virtual("comments", {
+  ref: "Post",
+  localField: "_id",
+  foreignField: "parentId",
+});
+
+postSchema.virtual("subPosts", {
+  ref: "Post",
+  localField: "_id",
+  foreignField: "parentId",
+});
+
 const Post = mongoose.model("Post", postSchema);
+
+module.exports = Post;

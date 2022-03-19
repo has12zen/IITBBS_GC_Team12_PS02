@@ -9,11 +9,42 @@ exports.updatePost = factory.updateOne(Post);
 exports.deletePost = factory.deleteOne(Post);
 
 exports.discussion = catchAsync(async (req, res, next) => {
-  const post = await Post.findById(req.params.id);
+  const discussion = await Post.findById(req.params.id).populate([
+    {
+      path: "comments",
+      match: { isComment: true },
+    },
+    {
+      path: "subPosts",
+      match: { isComment: false },
+      populate: [
+        {
+          path: "comments",
+          match: { isComment: true },
+        },
+        {
+          path: "createdBy",
+          select: "firstname lastame _id img role",
+        },
+        {
+          path: "votes",
+          select: "upvote",
+        },
+      ],
+    },
+    {
+      path: "votes",
+      select: "upvote",
+    },
+    {
+      path: "createdBy",
+      select: "firstname lastame _id img role",
+    },
+  ]);
   res.status(200).json({
     status: "success",
     data: {
-      post,
+      discussion,
     },
   });
 });
