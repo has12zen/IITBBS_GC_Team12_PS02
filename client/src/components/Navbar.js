@@ -1,4 +1,5 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 import {
   Menu,
   MenuItem,
@@ -7,25 +8,34 @@ import {
   Toolbar,
   Box,
   AppBar,
+  Typography,
+  Input,
+  Grid,
 } from "@mui/material";
+
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const Navbar = () => {
   return (
     <Box>
       <AppBar position="static">
         <Toolbar>
-          <Menu>
-            <MenuItem>
-              <InputBase />
-            </MenuItem>
-            <MenuItem>
-              <IconButton>
-                <img src="https://img.icons8.com/ios/50/000000/search.png" />
-              </IconButton>
-            </MenuItem>
-          </Menu>
+          <Grid container spacing={1} alignItems="center">
+            <Grid item xs={4}>
+              <Typography variant="h4" style={{ color: "white" }}>
+                Charcha
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Input placeholder="Search…" />
+            </Grid>
+            <Grid item xs={4}>
+              <AccountCircleIcon style={{ float: "right" }} />
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
+      <Outlet />
     </Box>
   );
 };
