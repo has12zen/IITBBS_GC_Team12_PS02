@@ -8,7 +8,7 @@ const voteSchema = new Schema(
       ref: "User",
       required: true,
     },
-    postId: {
+    parentId: {
       type: Schema.Types.ObjectId,
       ref: "Post",
       required: true,
@@ -20,4 +20,8 @@ const voteSchema = new Schema(
   { timestamps: true }
 );
 
+voteSchema.index({ parentId: 1, createdBy: 1 }, { unique: true });
+
 const Vote = mongoose.model("Vote", voteSchema);
+
+module.exports = Vote;
