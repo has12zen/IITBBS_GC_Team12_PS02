@@ -36,7 +36,7 @@ const userRoutes = (user, setUser, setLoad) => {
           // },
           {
             path: "create",
-            element: <AskQ />,
+            element: <AskQ user={user} />,
           },
           {
             path: "/home",
