@@ -32,7 +32,7 @@ const userRoutes = (user, setUser, setLoad) => {
           },
           {
             path: "/home",
-            element: <Home />,
+            element: <Home user={user} />,
           },
           {
             path: "/profile",

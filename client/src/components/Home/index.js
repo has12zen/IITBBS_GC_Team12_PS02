@@ -1,11 +1,28 @@
-import React from "react";
-import { Box, Button, Grid, List, Typography, ListItem } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Ques from "./Ques";
+import axios from "axios";
 
-const Home = () => {
-  const topics = ["Internship", "Placements", "Projects", "Fests"];
+import { Box, Button, Grid, List, Typography, ListItem } from "@mui/material";
+import Discussions from "../Discussions";
+
+const topics = ["Internship", "Placements", "Projects", "Fests"];
+const Home = ({ user }) => {
   const navigate = useNavigate();
+  const [allDiscussions, setAllDiscussions] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("/api/posts")
+      .then((res) => {
+        console.log(res.data.data.doc);
+
+        setAllDiscussions(res.data.data.doc);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }, []);
+
   return (
     <Box style={{ marginTop: 20 }}>
       <Grid container spacing={2}>
@@ -28,10 +45,9 @@ const Home = () => {
         </Grid>
         <Grid item xs={8}>
           <Box style={{ padding: 0 }}>
-            <Ques />
-            <Ques />
-            <Ques />
-            <Ques />
+            {allDiscussions && (
+              <Discussions user={user} data={allDiscussions} />
+            )}
           </Box>
         </Grid>
         <Grid item xs={2}>

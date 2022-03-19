@@ -8,13 +8,12 @@ import {
   Container,
   Grid,
   IconButton,
-  Input,
-  InputBase,
-  Menu,
-  MenuItem,
+  TextField,
   Toolbar,
   Typography,
+  InputAdornment,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 import NavMenu from "./NavMenu";
 
@@ -26,7 +25,7 @@ const Navbar = ({ user, setUser }) => {
   return (
     <Box>
       {user && (
-        <AppBar position="static">
+        <AppBar style={{ position: "sticky", top: 0 }}>
           <Toolbar>
             <Grid container spacing={1} alignItems="center">
               <Grid item xs={4}>
@@ -41,7 +40,21 @@ const Navbar = ({ user, setUser }) => {
                 </Typography>
               </Grid>
               <Grid item xs={4}>
-                <Input placeholder="Search…" />
+                <TextField
+                  fullWidth
+                  placeholder="Search..."
+                  variant="outlined"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <IconButton style={{ color: "white" }}>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                    style: { color: "white" },
+                  }}
+                />
               </Grid>
               <Grid item xs={4}>
                 {user && (
