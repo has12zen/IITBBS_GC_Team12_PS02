@@ -1,12 +1,15 @@
 import React from "react";
 import { Box, Typography, Chip, Avatar } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import parse from "html-react-parser";
 
 import ForumIcon from "@mui/icons-material/Forum";
 import ShowTime from "../../misc/ShowTime";
 
-const Ques = ({ user, data }) => {
+const Ques = ({ user, data, hideCreator = false }) => {
   const labels = ["Projects", "Fest", "Intern"];
+  console.log({ data });
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -15,6 +18,10 @@ const Ques = ({ user, data }) => {
         padding: 15,
         borderRadius: 5,
         marginBottom: 10,
+        cursor: "pointer",
+      }}
+      onClick={() => {
+        navigate(`/discussion/${data._id}`);
       }}
     >
       <Typography variant="h4">{data.title}</Typography>
@@ -56,21 +63,27 @@ const Ques = ({ user, data }) => {
           />
           <Typography variant="button">3</Typography>
         </Box> */}
-        <Box
-          style={{ ...styles.bottomBox, display: "flex", alignItems: "center" }}
-        >
-          <Avatar
-            src={"https://i.pravatar.cc/300"}
+        {!hideCreator && (
+          <Box
             style={{
-              width: 30,
-              height: 30,
-              marginRight: 10,
+              ...styles.bottomBox,
+              display: "flex",
+              alignItems: "center",
             }}
-          />
-          <Typography variant="button" style={{ textTransform: "none" }}>
-            {data.createdBy.firstname} {data.createdBy.lastname}
-          </Typography>
-        </Box>
+          >
+            <Avatar
+              src={data.createdBy.img}
+              style={{
+                width: 30,
+                height: 30,
+                marginRight: 10,
+              }}
+            />
+            <Typography variant="button" style={{ textTransform: "none" }}>
+              {data.createdBy.firstname} {data.createdBy.lastname}
+            </Typography>
+          </Box>
+        )}
       </Box>
     </Box>
   );

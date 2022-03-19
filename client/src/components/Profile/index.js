@@ -142,7 +142,7 @@ const Profile = ({ user, setUser }) => {
             </Button>
           </Grid>
           <Grid item md={8} xs={12}>
-            <Discussions user={user} data={discussions} />
+            <Discussions user={user} data={discussions} hideCreator />
           </Grid>
         </Grid>
       </div>
