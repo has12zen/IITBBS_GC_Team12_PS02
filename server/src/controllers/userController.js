@@ -9,6 +9,11 @@ const AppError = require("../utils/appError");
 
 const client = new OAuth2Client(process.env.CLIENT_ID);
 
+exports.putCreatedBy = (req, res, next) => {
+  req.body.createdBy = req.user._id;
+  next();
+};
+
 exports.verifyToken = catchAsync(async (req, res, next) => {
   const { token } = req.body;
 
@@ -26,11 +31,15 @@ exports.verifyToken = catchAsync(async (req, res, next) => {
     });
 });
 
-// exports.protect = catchAsync(async (req, res, next) => {
-//   console.log(req.user);
+exports.protect = catchAsync(async (req, res, next) => {
+  // console.log(req.user);
+  let user = await User.findOne({ email: req.user.email });
 
-//   next();
-// });
+  if (!user) return next(new AppError("User not found", 404));
+  req.user = user;
+
+  next();
+});
 
 exports.getMe = catchAsync(async (req, res, next) => {
   let user = await User.findOne({ email: req.user.email });

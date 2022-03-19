@@ -17,7 +17,7 @@ const userRoutes = (user, setUser, setLoad) => {
             element: <User />,
           },
           {
-            path: "question",
+            path: "discussion/:id",
             element: <Question />,
           },
           {
@@ -36,7 +36,7 @@ const userRoutes = (user, setUser, setLoad) => {
           // },
           {
             path: "ask-question",
-            element: <AskQ />,
+            element: <AskQ user={user} />,
           },
           {
             path: "/home",
