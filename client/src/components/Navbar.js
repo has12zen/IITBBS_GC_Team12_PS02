@@ -1,16 +1,18 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+
 import {
+  AppBar,
+  Box,
+  Container,
+  Grid,
+  IconButton,
+  Input,
+  InputBase,
   Menu,
   MenuItem,
-  InputBase,
-  IconButton,
   Toolbar,
-  Box,
-  AppBar,
   Typography,
-  Input,
-  Grid,
 } from "@mui/material";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -35,7 +37,10 @@ const Navbar = () => {
           </Grid>
         </Toolbar>
       </AppBar>
-      <Outlet />
+
+      <Container>
+        <Outlet />
+      </Container>
     </Box>
   );
 };

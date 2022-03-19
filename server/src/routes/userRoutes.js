@@ -3,6 +3,8 @@ const userController = require("../controllers/userController");
 
 const Router = express.Router();
 
-Router.get("/", userController.getUser);
+Router.use(userController.verifyToken);
+
+Router.post("/me", userController.getMe);
 
 module.exports = Router;

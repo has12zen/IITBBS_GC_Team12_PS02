@@ -1,3 +1,6 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const AppError = require("./../utils/appError");
 
 const handleCastErrorDB = (err) => {
@@ -29,6 +32,9 @@ const handleJWTExpiredError = () =>
 
 const sendErrorDev = (err, req, res) => {
   //API
+  console.error("ERROR 💥", err);
+
+  //RENDERED WEBSITE
   if (req.originalUrl.startsWith("/api")) {
     return res.status(err.statusCode).json({
       status: err.status,
@@ -38,8 +44,6 @@ const sendErrorDev = (err, req, res) => {
       stack: err.stack,
     });
   }
-  //RENDERED WEBSITE
-  console.error("ERROR 💥", err);
 
   return res.status(err.statusCode).render("error", {
     title: "Something went wrong",
@@ -91,7 +95,6 @@ const sendErrorProd = (err, req, res) => {
 
 module.exports = (err, req, res, next) => {
   //   console.log(err.stack);
-  console.log("Cool");
 
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";

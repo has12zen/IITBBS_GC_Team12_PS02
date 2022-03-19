@@ -10,11 +10,7 @@ const AppError = require("../utils/appError");
 const client = new OAuth2Client(process.env.CLIENT_ID);
 
 exports.verifyToken = catchAsync(async (req, res, next) => {
-  console.log(req.body);
-
   const { token } = req.body;
-
-  console.log({ token });
 
   if (!token) return next(new AppError("User not logged in.", 403));
 
@@ -30,13 +26,27 @@ exports.verifyToken = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.protect = catchAsync(async (req, res, next) => {
-  console.log(req.user);
-});
+// exports.protect = catchAsync(async (req, res, next) => {
+//   console.log(req.user);
+
+//   next();
+// });
 
 exports.getMe = catchAsync(async (req, res, next) => {
-  req.params.id = req.user.id;
-  next();
+  let user = await User.findOne({ email: req.user.email });
+
+  if (!user) {
+    user = await User.create({
+      email: req.user.email,
+      firstname: req.user.given_name,
+      lastname: req.user.family_name,
+      img: req.user.picture,
+    });
+  }
+
+  res.send(user);
+
+  // next();
 });
 
 exports.getUser = factory.getOne(User);
