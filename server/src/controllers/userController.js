@@ -7,7 +7,8 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
 exports.putCreatedBy = (req, res, next) => {
-  req.body.createdBy = req.user._id;
+  if (!req.body.isPrivate) req.body.createdBy = req.user._id;
+
   next();
 };
 

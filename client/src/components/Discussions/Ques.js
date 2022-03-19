@@ -7,7 +7,6 @@ import ShowTime from "../../misc/ShowTime";
 
 const Ques = ({ user, data }) => {
   const labels = ["Projects", "Fest", "Intern"];
-  console.log(data);
   return (
     <Box
       style={{
@@ -38,7 +37,13 @@ const Ques = ({ user, data }) => {
           alignItems: "flex-end",
         }}
       >
-        <Box style={{}}>
+        <Box
+          style={{
+            backgroundColor: "rgba(69, 69, 69)",
+            padding: 3,
+            color: "white",
+          }}
+        >
           {ShowTime(data.createdAt)}
         </Box>
         {/* <Box style={{ ...styles.bottomBox }}>

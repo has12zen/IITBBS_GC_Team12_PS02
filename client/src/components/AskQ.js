@@ -9,7 +9,6 @@ import {
   Chip,
   Checkbox,
 } from "@mui/material";
-import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import { CKEditor } from "ckeditor4-react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -123,8 +122,6 @@ const AskQ = ({ user }) => {
         }}
       >
         <Checkbox
-          icon={<NoAccountsIcon />}
-          checkedIcon={<NoAccountsIcon />}
           onChange={(event) => {
             setPri(event.target.checked);
           }}
@@ -153,6 +150,7 @@ const AskQ = ({ user }) => {
               title,
               body: question,
               isComment: false,
+              isPrivate: pri,
             },
             {
               onSuccess: (ret) => {
