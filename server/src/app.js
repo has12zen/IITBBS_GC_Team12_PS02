@@ -6,9 +6,11 @@ const userController = require("./controllers/userController");
 const userRoutes = require("./routes/userRoutes");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
+const chalk = require("chalk");
+const morganMiddleware = require("./utils/requestLogger");
 
-app.use(morgan("dev"));
 app.use(express.json({ limit: "10kb" }));
+app.use(morganMiddleware);
 
 app.use(userController.verifyToken, userController.protect);
 
