@@ -3,6 +3,7 @@ import LandingPage from "./components/Landing";
 import Navbar from "./components/Navbar";
 import Question from "./components/Question";
 import User from "./components/User";
+import AskQ from "./components/AskQ";
 
 const userRoutes = (user, setUser, setLoad) => {
   if (user)
@@ -33,10 +34,10 @@ const userRoutes = (user, setUser, setLoad) => {
           //   path:'question',
           //   element: <Question />
           // },
-          // {
-          //   path:'ask-question',
-          //   element: <AskQuestion />
-          // },
+          {
+            path: "ask-question",
+            element: <AskQ />,
+          },
           {
             path: "/home",
             element: <Home />,

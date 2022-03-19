@@ -46,7 +46,7 @@ const Login = ({ setUser, load, user, setLoad }) => {
     setUserData(curr);
     setLoad(false);
 
-    navigate("/home");
+    if (window.location.pathname === "/") navigate("/home");
   };
 
   const failureResponseGoogle = (res) => {
@@ -63,7 +63,7 @@ const Login = ({ setUser, load, user, setLoad }) => {
       setLoad(false);
 
       navigate("/");
-    } else navigate("/home");
+    } else if (window.location.pathname === "/") navigate("/home");
   };
 
   useEffect(() => {

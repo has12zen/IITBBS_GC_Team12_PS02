@@ -7,10 +7,12 @@ const Home = () => {
   const topics = ["Internship", "Placements", "Projects", "Fests"];
 
   return (
-    <Box style={{ marginTop: 20, marginLeft: 20, marginRight: 20 }}>
+    <Box style={{ marginTop: 20 }}>
       <Grid container spacing={2}>
         <Grid item xs={2}>
-          <Box style={{ ...styles.grid, textAlign: "center" }}>
+          <Box
+            style={{ ...styles.grid, textAlign: "center", position: "stickey" }}
+          >
             <Typography variant="h6">My Items</Typography>
             <List>
               <ListItem style={styles.list}>Answers</ListItem>
@@ -20,8 +22,11 @@ const Home = () => {
           </Box>
         </Grid>
         <Grid item xs={8}>
-          <Box style={{ ...styles.grid, padding: 20 }}>
-            <Typography variant="h6">Questions</Typography>
+          <Box style={{ padding: 0 }}>
+            {/* <Typography variant="h6">Questions</Typography> */}
+            <Ques />
+            <Ques />
+            <Ques />
             <Ques />
           </Box>
         </Grid>
