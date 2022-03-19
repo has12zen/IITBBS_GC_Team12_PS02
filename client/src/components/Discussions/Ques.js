@@ -1,5 +1,7 @@
 import React from "react";
 import { Box, Typography, Chip, Avatar } from "@mui/material";
+import parse from "html-react-parser";
+
 import ForumIcon from "@mui/icons-material/Forum";
 
 const Ques = ({ user, data }) => {
@@ -21,11 +23,12 @@ const Ques = ({ user, data }) => {
             label={label}
             key={key}
             onClick={() => {}}
-            style={{ marginRight: 5 }}
+            style={{ marginRight: 5, fontSize: 15, padding: 5 }}
+            size="small"
           />
         ))}
       </Box>
-      <Box style={{ marginTop: 20, marginBottom: 20 }}>{data.body}</Box>
+      <Box style={{ marginTop: 20, marginBottom: 20 }}>{parse(data.body)}</Box>
       <Box
         style={{
           marginTop: 10,
@@ -34,7 +37,10 @@ const Ques = ({ user, data }) => {
           alignItems: "flex-end",
         }}
       >
-        <Box style={{ ...styles.bottomBox }}>
+        <Box>
+          
+        </Box>
+        {/* <Box style={{ ...styles.bottomBox }}>
           <ForumIcon
             style={{
               marginRight: 5,
@@ -42,8 +48,10 @@ const Ques = ({ user, data }) => {
             }}
           />
           <Typography variant="button">3</Typography>
-        </Box>
-        <Box style={{ ...styles.bottomBox, display: "flex" }}>
+        </Box> */}
+        <Box
+          style={{ ...styles.bottomBox, display: "flex", alignItems: "center" }}
+        >
           <Avatar
             src={"https://i.pravatar.cc/300"}
             style={{
@@ -52,7 +60,7 @@ const Ques = ({ user, data }) => {
               marginRight: 10,
             }}
           />
-          <Typography variant="button">
+          <Typography variant="button" style={{ textTransform: "none" }}>
             {data.createdBy.firstname} {data.createdBy.lastname}
           </Typography>
         </Box>
