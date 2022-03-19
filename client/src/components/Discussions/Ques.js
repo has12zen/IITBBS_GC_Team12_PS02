@@ -7,6 +7,7 @@ import ShowTime from "../../misc/ShowTime";
 
 const Ques = ({ user, data }) => {
   const labels = ["Projects", "Fest", "Intern"];
+
   return (
     <Box
       style={{

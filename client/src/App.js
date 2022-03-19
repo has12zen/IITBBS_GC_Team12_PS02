@@ -19,14 +19,10 @@ const App = () => {
   const routes = useRoutes(
     setRoutes(
       user,
-      data => setUser(data),
-      val => setLoad(val)
+      (data) => setUser(data),
+      (val) => setLoad(val)
     )
   );
-
-  useEffect(() => {
-    console.log({ load });
-  }, [load]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -36,7 +32,7 @@ const App = () => {
           backgroundPosition: "bottom",
           backgroundAttachment: "fixed",
           backgroundRepeat: "no-repeat",
-          backgroundSize: "cover"
+          backgroundSize: "cover",
         }}
       >
         {load && (
@@ -49,7 +45,7 @@ const App = () => {
               backgroundColor: "white",
               display: "flex",
               justifyContent: "center",
-              alignItems: "center"
+              alignItems: "center",
             }}
           >
             <CircularProgress />

@@ -18,8 +18,6 @@ const Login = ({ setUser, load, user, setLoad }) => {
       .then((res) => {
         const data = res.data;
 
-        console.log({ data });
-
         setUser(data);
         setLoad(false);
         setIsLoading(false);
@@ -41,8 +39,6 @@ const Login = ({ setUser, load, user, setLoad }) => {
       token: res.tokenId,
     };
 
-    console.log(curr);
-
     setUserData(curr);
     setLoad(false);
 
@@ -56,8 +52,6 @@ const Login = ({ setUser, load, user, setLoad }) => {
   };
 
   const onAutoLoadGoogle = (loggedIn) => {
-    console.log({ loggedIn });
-
     if (!loggedIn) {
       setIsLoading(false);
       setLoad(false);

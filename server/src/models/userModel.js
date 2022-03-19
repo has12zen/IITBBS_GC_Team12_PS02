@@ -16,12 +16,12 @@ const userSchema = new Schema(
       required: true,
     },
     branch: String,
+    degree: String,
     img: String,
     bio: {
       type: String,
       maxlength: 200,
     },
-    year: Number,
     yearOfAdmission: Number,
     yearOfGraduation: Number,
     isBlacklisted: { type: Boolean, default: false, required: true },

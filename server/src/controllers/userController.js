@@ -12,6 +12,11 @@ exports.putCreatedBy = (req, res, next) => {
   next();
 };
 
+exports.putUserInParams = catchAsync(async (req, res, next) => {
+  req.params.id = req.user._id;
+  next();
+});
+
 exports.logout = catchAsync(async (req, res, next) => {});
 
 exports.getMe = catchAsync(async (req, res, next) => {
@@ -32,3 +37,5 @@ exports.getMe = catchAsync(async (req, res, next) => {
 });
 
 exports.getUser = factory.getOne(User);
+
+exports.updateUser = factory.updateOne(User);
