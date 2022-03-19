@@ -1,6 +1,6 @@
-import Home from "./components/Home/Home";
+import Home from "./components/Home";
 import LandingPage from "./components/Landing";
-import Navbar from "./components/Navbar";
+import Layout from "./components/Layout";
 import Question from "./components/Question";
 import User from "./components/User";
 import AskQ from "./components/AskQ";
@@ -10,11 +10,11 @@ const userRoutes = (user, setUser, setLoad) => {
     return [
       {
         path: "/",
-        element: <Navbar />,
+        element: <Layout user={user} setUser={setUser} />,
         children: [
           {
             path: "user",
-            element: <User />,
+            element: <User user={user} setUser={setUser} />,
           },
           {
             path: "discussion/:id",
@@ -49,7 +49,7 @@ const userRoutes = (user, setUser, setLoad) => {
   return [
     {
       path: "/",
-      element: <Navbar />,
+      element: <Layout user={user} setUser={setUser} />,
       children: [
         {
           path: "/",

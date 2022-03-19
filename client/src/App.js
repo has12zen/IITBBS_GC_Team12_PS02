@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useRoutes } from "react-router-dom";
-
-import { CircularProgress } from "@mui/material";
-import "./App.css";
-import setRoutes from "./routes";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { CircularProgress } from "@mui/material";
+
+import "./App.css";
+import setRoutes from "./routes";
+import bg from "./assets/images/bg.jpg";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,15 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div>
+      <div
+        style={{
+          backgroundImage: `url(${bg})`,
+          backgroundPosition: "bottom",
+          backgroundAttachment: "fixed",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+      >
         {load && (
           <div
             style={{

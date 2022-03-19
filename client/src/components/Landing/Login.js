@@ -122,7 +122,7 @@ const Login = ({ setUser, load, user, setLoad }) => {
                         />
                       </svg>
                     </SvgIcon>
-                    &nbsp;&nbsp; Login with Google
+                    &nbsp;&nbsp; Login &nbsp;&nbsp;
                   </>
                 ) : (
                   <CircularProgress />
