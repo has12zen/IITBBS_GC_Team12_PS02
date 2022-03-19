@@ -1,45 +1,17 @@
 const dotenv = require("dotenv");
 dotenv.config();
-const { OAuth2Client } = require("google-auth-library");
 
 const User = require("../models/userModel");
 const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
-const client = new OAuth2Client(process.env.CLIENT_ID);
-
 exports.putCreatedBy = (req, res, next) => {
   req.body.createdBy = req.user._id;
   next();
 };
 
-exports.verifyToken = catchAsync(async (req, res, next) => {
-  const { token } = req.body;
-
-  if (!token) return next(new AppError("User not logged in.", 403));
-
-  client
-    .verifyIdToken({ idToken: token, audience: process.env.CLIENT_ID })
-    .then((res) => {
-      req.user = res.payload;
-
-      next();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-exports.protect = catchAsync(async (req, res, next) => {
-  // console.log(req.user);
-  let user = await User.findOne({ email: req.user.email });
-
-  if (!user) return next(new AppError("User not found", 404));
-  req.user = user;
-
-  next();
-});
+exports.logout = catchAsync(async (req, res, next) => {});
 
 exports.getMe = catchAsync(async (req, res, next) => {
   let user = await User.findOne({ email: req.user.email });

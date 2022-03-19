@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 import {
   AppBar,
@@ -19,6 +19,8 @@ import {
 import NavMenu from "./NavMenu";
 
 const Navbar = ({ user, setUser }) => {
+  const navigate = useNavigate();
+
   const [menuState, setMenuState] = useState({ open: false, anchor: null });
 
   return (
@@ -28,7 +30,13 @@ const Navbar = ({ user, setUser }) => {
           <Toolbar>
             <Grid container spacing={1} alignItems="center">
               <Grid item xs={4}>
-                <Typography variant="h4" style={{ color: "white" }}>
+                <Typography
+                  variant="h4"
+                  style={{ color: "white", cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/home");
+                  }}
+                >
                   Charcha
                 </Typography>
               </Grid>

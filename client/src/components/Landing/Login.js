@@ -14,13 +14,13 @@ const Login = ({ setUser, load, user, setLoad }) => {
 
   const getUser = (token) => {
     axios
-      .post("/api/user/me", { token })
+      .post("/api/auth/login", { token })
       .then((res) => {
         const data = res.data;
 
         console.log({ data });
 
-        setUser({ ...userData, ...data });
+        setUser(data);
         setLoad(false);
         setIsLoading(false);
       })

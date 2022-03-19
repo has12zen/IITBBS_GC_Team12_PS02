@@ -1,4 +1,6 @@
 import * as React from "react";
+import { GoogleLogout } from "react-google-login";
+import { useNavigate } from "react-router-dom";
 
 import {
   Avatar,
@@ -14,7 +16,6 @@ import {
 } from "@mui/material";
 
 import { PostAdd, Home, Person, Logout } from "@mui/icons-material";
-import { GoogleLogout } from "react-google-login";
 
 import { CLIENT_ID } from "../../constants";
 
@@ -45,6 +46,8 @@ const LogoutButton = () => {
 };
 
 const NavMenu = ({ anchor, open, handleClose }) => {
+  const navigate = useNavigate();
+
   return (
     <Paper sx={{ width: 320, maxWidth: "100%", backgroundColor: "red" }}>
       <Menu
@@ -57,19 +60,34 @@ const NavMenu = ({ anchor, open, handleClose }) => {
         }}
       >
         <MenuList style={{ outline: "none" }}>
-          <MenuItem>
+          <MenuItem
+            onClick={() => {
+              navigate("/home");
+              handleClose();
+            }}
+          >
             <ListItemIcon>
               <Home fontSize="small" />
             </ListItemIcon>
             <ListItemText>Home</ListItemText>
           </MenuItem>
-          <MenuItem>
+          <MenuItem
+            onClick={() => {
+              navigate("/profile");
+              handleClose();
+            }}
+          >
             <ListItemIcon>
               <Person fontSize="small" />
             </ListItemIcon>
             <ListItemText>Profile</ListItemText>
           </MenuItem>
-          <MenuItem>
+          <MenuItem
+            onClick={() => {
+              navigate("/create");
+              handleClose();
+            }}
+          >
             <ListItemIcon>
               <PostAdd fontSize="small" />
             </ListItemIcon>
