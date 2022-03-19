@@ -30,7 +30,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <div
         style={{
-          backgroundImage: `url(${bg})`,
+          backgroundImage: !user && `url(${bg})`,
           backgroundPosition: "bottom",
           backgroundAttachment: "fixed",
           backgroundRepeat: "no-repeat",
