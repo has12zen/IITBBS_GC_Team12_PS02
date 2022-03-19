@@ -3,6 +3,7 @@ import { Box, Typography, Chip, Avatar } from "@mui/material";
 import parse from "html-react-parser";
 
 import ForumIcon from "@mui/icons-material/Forum";
+import ShowTime from "../../misc/ShowTime";
 
 const Ques = ({ user, data }) => {
   const labels = ["Projects", "Fest", "Intern"];
@@ -37,8 +38,8 @@ const Ques = ({ user, data }) => {
           alignItems: "flex-end",
         }}
       >
-        <Box>
-          
+        <Box style={{}}>
+          {ShowTime(data.createdAt)}
         </Box>
         {/* <Box style={{ ...styles.bottomBox }}>
           <ForumIcon
