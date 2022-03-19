@@ -4,7 +4,11 @@ const userController = require("../controllers/userController");
 
 const Router = express.Router();
 
-Router.use(authController.verifyToken, authController.protect);
+Router.use(authController.verifyToken);
+
+Router.get("/:id", userController.getUser);
+
+Router.use(authController.protect);
 
 Router.route("/").patch(
   userController.putUserInParams,

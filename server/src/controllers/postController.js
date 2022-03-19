@@ -2,9 +2,8 @@ const Post = require("../models/postModel");
 const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
 
-exports.getAllPosts = factory.getAll(Post,{
-  path:"createdBy",
-  
+exports.getAllPosts = factory.getAll(Post, {
+  path: "createdBy",
 });
 exports.getPost = factory.getOne(Post);
 exports.createPost = factory.createOne(Post);
@@ -48,7 +47,7 @@ exports.discussion = catchAsync(async (req, res, next) => {
 });
 
 exports.getPostsByUser = catchAsync(async (req, res, next) => {
-  const posts = await Post.find({ createdBy: req.user._id, parentId: null });
+  const posts = await Post.find({ createdBy: req.params.id, parentId: null });
 
   res.send(posts);
 });

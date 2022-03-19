@@ -28,7 +28,7 @@ const graduationYears = () => {
   return years.reverse();
 };
 
-const Profile = ({ user, setUser }) => {
+const Profile = ({ user, setUser, me = false }) => {
   const [discussions, setDiscussions] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -70,7 +70,7 @@ const Profile = ({ user, setUser }) => {
 
   useEffect(() => {
     axios
-      .get("/api/posts/me")
+      .get(`/api/posts/user/${user._id}`)
       .then((res) => {
         console.log(res.data);
         setDiscussions(res.data);
@@ -133,7 +133,7 @@ const Profile = ({ user, setUser }) => {
             <Button
               variant="outlined"
               startIcon={<Edit />}
-              style={{ marginTop: "20px" }}
+              style={{ margin: "20px 0px" }}
               onClick={() => {
                 setEdit(true);
               }}

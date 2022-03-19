@@ -70,6 +70,12 @@ const Ques = ({ user, data, hideCreator = false }) => {
               display: "flex",
               alignItems: "center",
             }}
+            onClick={(event) => {
+              event.stopPropagation();
+
+              console.log("clicked");
+              navigate(`/user/${data.createdBy._id}`);
+            }}
           >
             <Avatar
               src={data.createdBy.img}
