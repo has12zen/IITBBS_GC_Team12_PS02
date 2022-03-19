@@ -1,17 +1,22 @@
 import React from "react";
 import { Box, Button, Grid, List, Typography, ListItem } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
 import Ques from "./Ques";
 
 const Home = () => {
   const topics = ["Internship", "Placements", "Projects", "Fests"];
-
+  const navigate = useNavigate();
   return (
     <Box style={{ marginTop: 20 }}>
       <Grid container spacing={2}>
         <Grid item xs={2}>
           <Box
-            style={{ ...styles.grid, textAlign: "center", position: "stickey" }}
+            style={{
+              ...styles.grid,
+              textAlign: "center",
+              position: "sticky",
+              top: 84,
+            }}
           >
             <Typography variant="h6">My Items</Typography>
             <List>
@@ -23,7 +28,6 @@ const Home = () => {
         </Grid>
         <Grid item xs={8}>
           <Box style={{ padding: 0 }}>
-            {/* <Typography variant="h6">Questions</Typography> */}
             <Ques />
             <Ques />
             <Ques />
@@ -31,19 +35,23 @@ const Home = () => {
           </Box>
         </Grid>
         <Grid item xs={2}>
-          <Box style={{ marginBottom: 10 }}>
-            <Button variant="contained">Ask Question</Button>
-          </Box>
-          <Box style={{ ...styles.grid, textAlign: "center" }}>
-            <Typography variant="h6">Hot Topics</Typography>
-            <Box>
-              <List>
-                {topics.map((topic, key) => (
-                  <ListItem style={styles.list} key={key}>
-                    {topic}
-                  </ListItem>
-                ))}
-              </List>
+          <Box style={{ position: "sticky", top: 84 }}>
+            <Box style={{ marginBottom: 10 }}>
+              <Button variant="contained" onClick={() => navigate("/create")}>
+                Ask Question
+              </Button>
+            </Box>
+            <Box style={{ ...styles.grid, textAlign: "center" }}>
+              <Typography variant="h6">Hot Topics</Typography>
+              <Box>
+                <List>
+                  {topics.map((topic, key) => (
+                    <ListItem style={styles.list} key={key}>
+                      {topic}
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
             </Box>
           </Box>
         </Grid>

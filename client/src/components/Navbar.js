@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 
 import {
   AppBar,
@@ -14,13 +14,18 @@ import {
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <Box>
-      <AppBar position="static">
+      <AppBar style={{ position: "sticky", height: 64, top: 0 }}>
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
-            <Grid item xs={4}>
-              <Typography variant="h4" style={{ color: "white" }}>
+            <Grid item xs={4} style={{ cursor: "pointer" }}>
+              <Typography
+                variant="h4"
+                style={{ color: "white", cursor: "pointer" }}
+                onClick={() => navigate("/")}
+              >
                 Charcha
               </Typography>
             </Grid>
@@ -28,7 +33,10 @@ const Navbar = () => {
               <Input placeholder="Search…" />
             </Grid>
             <Grid item xs={4}>
-              <AccountCircleIcon style={{ float: "right" }} />
+              <AccountCircleIcon
+                style={{ float: "right", cursor: "pointer" }}
+                onClick={() => navigate("/user")}
+              />
             </Grid>
           </Grid>
         </Toolbar>
