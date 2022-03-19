@@ -48,3 +48,16 @@ exports.discussion = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.getPostsByUser = catchAsync(async (req, res, next) => {
+  console.log("check");
+
+  const posts = await Post.find({ createdBy: req.user._id, parentId: null });
+  console.log(posts);
+  res.status(200).json({
+    status: "success",
+    data: {
+      posts,
+    },
+  });
+});

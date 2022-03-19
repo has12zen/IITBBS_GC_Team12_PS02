@@ -14,6 +14,9 @@ Router.use(
 Router.route("/")
   .get(postController.getAllPosts)
   .post(postController.createPost);
+
+Router.route("/me").get(postController.getPostsByUser);
+
 Router.route("/:id")
   .get(postController.discussion)
   .delete(postController.deletePost)

@@ -8,11 +8,17 @@ import {
   ListItem,
   Chip,
   Avatar,
-  Button
+  Button,
 } from "@mui/material";
 import Qcomment from "./Comments";
+import { useSearchParams, useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 const Question = () => {
+  const [search] = useSearchParams();
+  const { id } = useParams();
+  console.log(id, "useParams");
   const people = ["Harshit", "Sai Krishna", "Anuj", "Rohan"];
   const labels = ["git", "version-control", "git-commit", "undo"];
   return (
@@ -55,7 +61,7 @@ const Question = () => {
                 style={{
                   marginRight: 5,
                   backgroundColor: "rgb(255,255,255)",
-                  color: "rgb(0,0,255)"
+                  color: "rgb(0,0,255)",
                 }}
               />
             </Grid>
@@ -73,7 +79,7 @@ const Question = () => {
                 style={{
                   marginRight: 5,
                   backgroundColor: "rgb(255,255,255)",
-                  color: "rgb(0,0,255)"
+                  color: "rgb(0,0,255)",
                 }}
               />
             </Grid>
@@ -114,11 +120,11 @@ const styles = {
   grid: {
     backgroundColor: "rgba(0,0,0,0.1)",
     borderRadius: 5,
-    padding: 10
+    padding: 10,
   },
   list: {
     justifyContent: "center",
-    paddingBottom: 0
-  }
+    paddingBottom: 0,
+  },
 };
 export default Question;
