@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Typography, Chip } from "@mui/material";
 
 const Ques = () => {
@@ -8,7 +9,7 @@ const Ques = () => {
         backgroundColor: "rgba(0,0,0,0.1)",
         padding: 15,
         borderRadius: 5,
-        marginBottom:10
+        marginBottom: 10
       }}
     >
       <Typography variant="h4">Title</Typography>
@@ -33,7 +34,7 @@ const Ques = () => {
         style={{
           marginTop: 10,
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "space-between"
         }}
       >
         <Box style={styles.bottomBox}>
@@ -53,8 +54,8 @@ const styles = {
     backgroundColor: "rgba(0,0,0,0.5)",
     padding: 5,
     borderRadius: 5,
-    color: "white",
-  },
+    color: "white"
+  }
 };
 
 export default Ques;

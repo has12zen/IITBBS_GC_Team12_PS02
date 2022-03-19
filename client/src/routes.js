@@ -1,3 +1,4 @@
+import React from "react";
 import Home from "./components/Home";
 import LandingPage from "./components/Landing";
 import Layout from "./components/Layout";
@@ -14,17 +15,17 @@ const userRoutes = (user, setUser, setLoad) => {
         children: [
           {
             path: "user",
-            element: <User user={user} setUser={setUser} />,
+            element: <User user={user} setUser={setUser} />
           },
           {
             path: "discussion/:id",
-            element: <Question />,
+            element: <Question />
           },
           {
             path: "/",
             element: (
               <LandingPage user={user} setUser={setUser} setLoad={setLoad} />
-            ),
+            )
           },
           // {
           //   path:'user',
@@ -36,14 +37,14 @@ const userRoutes = (user, setUser, setLoad) => {
           // },
           {
             path: "create",
-            element: <AskQ user={user} />,
+            element: <AskQ user={user} />
           },
           {
             path: "/home",
-            element: <Home />,
-          },
-        ],
-      },
+            element: <Home />
+          }
+        ]
+      }
     ];
 
   return [
@@ -55,22 +56,22 @@ const userRoutes = (user, setUser, setLoad) => {
           path: "/",
           element: (
             <LandingPage user={user} setUser={setUser} setLoad={setLoad} />
-          ),
+          )
         },
         {
           path: "*",
           element: (
             <LandingPage user={user} setUser={setUser} setLoad={setLoad} />
-          ),
+          )
         },
         {
           path: "/*",
           element: (
             <LandingPage user={user} setUser={setUser} setLoad={setLoad} />
-          ),
-        },
-      ],
-    },
+          )
+        }
+      ]
+    }
   ];
 };
 
