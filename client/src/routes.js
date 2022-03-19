@@ -1,4 +1,4 @@
-import Home from "./components/Home";
+import Home from "./components/Home/Home";
 import LandingPage from "./components/Landing";
 import Navbar from "./components/Navbar";
 import Question from "./components/Question";
