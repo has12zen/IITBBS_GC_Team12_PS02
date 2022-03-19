@@ -22,8 +22,9 @@ const userSchema = new Schema(
     yearOfGraduation: Number,
     isBlacklisted: { type: Boolean, default: false, required: true },
     role: {
-      type: Enumerator,
+      type: String,
       enum: ["user", "admin"],
+      default: "user",
     },
   },
   { timestamps: true }
