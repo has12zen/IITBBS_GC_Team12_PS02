@@ -34,6 +34,15 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+exports.stopBlacklisted = catchAsync(async (req, res, next) => {
+  if (req.user.isBlacklisted)
+    return next(
+      new AppError("You are blocked from performing this action", 403)
+    );
+
+  next();
+});
+
 exports.login = catchAsync(async (req, res, next) => {
   const { token } = req.body;
 

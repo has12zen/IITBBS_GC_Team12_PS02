@@ -11,15 +11,17 @@ Router.use(
   userController.putCreatedBy
 );
 
-Router.route("/")
-  .get(postController.getAllPosts)
-  .post(postController.createPost);
+Router.route("/:id")
+  .get(postController.discussion)
+  .delete(postController.deletePost);
 
 Router.route("/user/:id").get(postController.getPostsByUser);
 
-Router.route("/:id")
-  .get(postController.discussion)
-  .delete(postController.deletePost)
-  .patch(postController.updatePost);
+Router.get("/", postController.getAllPosts);
+
+Router.use(authController.stopBlacklisted);
+
+Router.post("/", postController.createPost);
+Router.patch("/:id", postController.updatePost);
 
 module.exports = Router;
