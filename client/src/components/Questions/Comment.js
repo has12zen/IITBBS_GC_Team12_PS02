@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Grid,
@@ -8,18 +8,27 @@ import {
   Chip,
   Avatar,
   Button,
+  Checkbox,
 } from "@mui/material";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ShowTime from "../../misc/ShowTime";
 import parser from "html-react-parser";
-const Qcomment = (data) => {
+const Qcomment = ({ data }) => {
+  const [upv, setUpv] = useState(false);
+  const [dv, setDv] = useState(false);
+  const [cupv, setCupv] = useState(30);
+  const [cdv, setCdv] = useState(4);
+  console.log(data, "comments");
+
   return (
-    <Box style={{ ...styles.grid, marginBottom: 5 }}>
+    <Box style={{ ...styles.grid }}>
       <Button style={{ paddingLeft: 0 }}>
         <Avatar
           alt="user"
-          src={data.img}
+          src={data.createdBy.img}
           style={{
             marginRight: 10,
             backgroundColor: "rgb(255,255,255)",
@@ -27,7 +36,7 @@ const Qcomment = (data) => {
           }}
         />
         <Typography variant="body1" style={{ textTransform: "none" }}>
-          {data.firstname}
+          {data.createdBy.firstname}
         </Typography>
       </Button>
       <Typography variant="body2" style={{ marginBottom: 10 }}>
@@ -42,17 +51,47 @@ const Qcomment = (data) => {
         }}
       >
         <Box>
-          <Typography variant="button">{ShowTime(new Date())}</Typography>
+          <Typography variant="caption" style={{ textTransform: "none" }}>
+            {ShowTime(data.createdAt)}
+          </Typography>
         </Box>
         <Box style={{ display: "flex", alignItems: "center" }}>
-          <ThumbUpIcon style={{ marginRight: 3 }} />
+          <Checkbox
+            icon={<ThumbUpOutlinedIcon />}
+            checkedIcon={<ThumbUpIcon />}
+            style={{ marginRight: 3, cursor: "pointer" }}
+            onClick={() => {
+              if (upv) {
+                setUpv(false);
+                setCupv(cupv - 1);
+              } else {
+                setUpv(true);
+                setCupv(cupv + 1);
+              }
+            }}
+            disabled={dv}
+          />
           <Typography variant="button" style={{ marginRight: 10 }}>
-            {data.upvotes}
+            {cupv}
           </Typography>
 
-          <ThumbDownIcon style={{ marginRight: 3 }} />
+          <Checkbox
+            icon={<ThumbDownOutlinedIcon />}
+            checkedIcon={<ThumbDownIcon />}
+            style={{ marginRight: 3, cursor: "pointer" }}
+            onClick={() => {
+              if (dv) {
+                setDv(false);
+                setCdv(cdv - 1);
+              } else {
+                setDv(true);
+                setCdv(cdv + 1);
+              }
+            }}
+            disabled={upv}
+          />
           <Typography variant="button" style={{ marginRight: 5 }}>
-            {data.downvotes}
+            {cdv}
           </Typography>
         </Box>
       </Box>
@@ -62,8 +101,10 @@ const Qcomment = (data) => {
 const styles = {
   grid: {
     // backgroundColor: "rgba(0,0,0,0.1)",
-    boxShadow: "0px 0px 15px 5px rgba(100,100,100,0.1)",
+    // boxShadow: "0px 0px 15px 5px rgba(100,100,100,0.1)",
     // borderRadius: 10,
+    borderBottomWidth: 1,
+    borderBottomStyle: "solid",
     padding: 10,
   },
   list: {

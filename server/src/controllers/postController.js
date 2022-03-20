@@ -15,6 +15,9 @@ exports.discussion = catchAsync(async (req, res, next) => {
     {
       path: "comments",
       match: { isComment: true },
+      populate: {
+        path: "createdBy",
+      },
     },
     {
       path: "subPosts",
@@ -23,6 +26,9 @@ exports.discussion = catchAsync(async (req, res, next) => {
         {
           path: "comments",
           match: { isComment: true },
+          populate: {
+            path: "createdBy",
+          },
         },
         {
           path: "createdBy",
