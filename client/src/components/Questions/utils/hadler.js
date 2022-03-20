@@ -91,3 +91,21 @@ export const calculateVote = (votes) => {
   });
   return { upvotes, downvotes };
 };
+
+export const handleCreateAnswer = async (data) => {
+  try {
+    const res = await axios.post(`/api/posts/`, { data });
+    return { ...res.data };
+  } catch (err) {
+    console.log(err, "create answer");
+  }
+};
+
+export const handleCreateVote = async (data) => {
+  try {
+    const res = await axios.post(`/api/posts/`, { data });
+    return { ...res.data };
+  } catch (err) {
+    console.log(err, "createVote");
+  }
+};

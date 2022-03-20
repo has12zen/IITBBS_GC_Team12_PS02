@@ -17,6 +17,10 @@ const postSchema = new Schema(
       ref: "User",
     },
     isComment: Boolean,
+    labels: {
+      type: [String],
+      maxItems: 5,
+    },
     parentId: {
       type: Schema.Types.ObjectId,
       ref: "Post",

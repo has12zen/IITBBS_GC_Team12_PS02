@@ -13,11 +13,15 @@ import { CKEditor } from "ckeditor4-react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { LocalConvenienceStoreOutlined } from "@mui/icons-material";
 
 const AskQ = ({ user }) => {
   const navigate = useNavigate();
   const [question, setQuestion] = useState("");
   const [title, setTitle] = useState("");
+  const [simpleTags, setSimpleTags] = useState([]);
+  const [simpleT, setSimpleT] = useState("");
+
   const [message, setMessage] = useState("");
 
   const createPost = async (data) => {
@@ -84,42 +88,26 @@ const AskQ = ({ user }) => {
       </Box>
       <Box style={{ marginTop: 20 }}>
         <Typography variant="h6">Tags :</Typography>
-        <Autocomplete
-          autoComplete
+        <TextField
           freeSolo={true}
           options={labels}
-          value={label}
-          onChange={(event, newValue) => {
-            // console.log(newValue);
-            if (newValue) {
-              setLabel(newValue);
-            } else {
-              setLabel("");
-            }
-          }}
-          inputValue={label}
-          onInputChange={(event, newInputValue) => {
-            // console.log(newInputValue);
-            if (newInputValue) {
-              setLabel(newInputValue);
-            } else {
-              setLabel("");
-            }
-          }}
+          value={simpleT}
           onKeyDown={(event) => {
-            // console.log(tags);
-            if (event.key === "Enter") {
-              setTags([...tags, label]);
-              setLabel("");
+            console.log(event.key, simpleT, simpleTags.length, "work");
+            if (
+              event.key === " " &&
+              simpleT.trim() !== "" &&
+              simpleTags.length < 5
+            ) {
+              console.log("Added tags");
+              setSimpleTags([...simpleTags, simpleT.trim()]);
+              setSimpleT("");
             }
           }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              placeholder="Add tags"
-              style={{ maxWidth: 300 }}
-            />
-          )}
+          onChange={(event) => {
+            console.log(event);
+            setSimpleT(event.target.value);
+          }}
         />
       </Box>
       <Box
@@ -138,13 +126,13 @@ const AskQ = ({ user }) => {
         <Typography variant="h6">Make this question private</Typography>
       </Box>
       <Box>
-        {tags.map((tag, key) => {
+        {simpleTags?.map((tag, key) => {
           return (
             <Chip
               key={key}
               label={tag}
               onDelete={() => {
-                setTags(tags.filter((t) => t !== tag));
+                setSimpleTags(simpleTags.filter((t) => t !== tag));
               }}
               style={{ marginRight: 5, marginTop: 5 }}
             />
@@ -160,6 +148,7 @@ const AskQ = ({ user }) => {
               body: question,
               isComment: false,
               isPrivate: pri,
+              labels: simpleTags,
             },
             {
               onSuccess: (ret) => {
