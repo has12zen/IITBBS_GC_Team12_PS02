@@ -17,6 +17,8 @@ app.use(morganMiddleware);
 
 app.use(cookieParser());
 app.use(mongoSanitize());
+app.enable("trust proxy");
+app.use(express.static(path.join(__dirname, "../../client/build")));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
@@ -25,7 +27,12 @@ app.use("/api/posts", postRoutes);
 app.use("/api/votes", voteRouter);
 
 app.all("*", async (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+  if (req.originalUrl.startsWith("/api")) {
+    return next(
+      new AppError(`Can't find ${req.originalUrl} on this server!`, 404)
+    );
+  }
+  res.sendFile(path.join(__dirname, "../../client/build/index.html"));
 });
 
 app.use(globalErrorHandler);
