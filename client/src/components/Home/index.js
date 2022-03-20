@@ -46,7 +46,7 @@ const Home = ({ user }) => {
           <Grid item xs={2}>
             <Box style={{ marginBottom: 10 }}>
               <Button variant="contained" onClick={() => navigate("/create")}>
-                Ask Question
+                Start Charcha
               </Button>
             </Box>
           </Grid>

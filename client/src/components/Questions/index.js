@@ -8,6 +8,7 @@ import {
   Chip,
   Avatar,
   Button,
+  Checkbox,
 } from "@mui/material";
 import { useGetDiscussion } from "./utils/hadler";
 import { CKEditor } from "ckeditor4-react";
@@ -17,8 +18,6 @@ import axios from "axios";
 import { useSearchParams, useParams } from "react-router-dom";
 
 const QuestionPage = () => {
-  const [ans, setAns] = useState(false);
-  const [ansText, setAnsText] = useState("");
   const [body, setBody] = useState("");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,7 +25,7 @@ const QuestionPage = () => {
   const [search] = useSearchParams();
   const { id } = useParams();
 
-  useEffect(() => {
+  const getDiscussion = () => {
     axios
       .get(`/api/posts/${id}`)
       .then((res) => {
@@ -40,6 +39,10 @@ const QuestionPage = () => {
         console.log(err);
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    getDiscussion();
   }, []);
 
   const faces = [];
@@ -74,33 +77,9 @@ const QuestionPage = () => {
       ) : (
         <Grid container spacing={2}>
           <Grid item xs={10}>
-            {isSuccess && data && <Question data={data} />}
+            {isSuccess && data && <Question data={data} callBack = {getDiscussion} />}
             {/* <Question /> */}
-            {ans && (
-              <Box style={{ marginTop: 20 }}>
-                <CKEditor
-                  data={ansText}
-                  onChange={(event) => {
-                    setAnsText(event.editor.getData());
-                  }}
-                />
-              </Box>
-            )}
-            {/* <Check */}
-            <Box style={{ marginTop: 20, marginBottom: 20 }}>
-              <Chip
-                variant="outlined"
-                label={ans ? "Submit" : "Add Answer"}
-                onClick={() => {
-                  setAns(!ans);
-                }}
-                style={{
-                  marginRight: 5,
-                  backgroundColor: "rgb(255,255,255)",
-                  color: "rgb(0,0,255)",
-                }}
-              />
-            </Box>
+
             {data?.subPosts.map((subPost, key) => {
               console.log("subposts");
               return <Answer key={key} data={subPost} />;
@@ -126,42 +105,9 @@ const QuestionPage = () => {
                 </List>
               </Box>
             )}
-            {/* {data?.subPosts.map((subPost, key) => {
-              <Answer key={key} data={subPost} />;
-            })} */}
           </Grid>
-          {/* <Chip
-            variant="outlined"
-            label="Add answer"
-            onClick={() => {}}
-            style={{
-              marginRight: 5,
-              backgroundColor: "rgb(255,255,255)",
-              color: "rgb(0,0,255)",
-            }}
-          /> */}
         </Grid>
       )}
-      {/* <Grid container spacing={2}>
-        <Grid item xs={2}>
-          <Box style={{ ...styles.grid, textAlign: "center" }}>
-            <Typography variant="h6">People</Typography>
-            <List>
-              {faces.map((person, key) => (
-                <ListItem style={styles.list} key={key}>
-                  <Chip
-                    avatar={<Avatar alt="Natacha" src={person.image} />}
-                    label={person.name}
-                    key={key}
-                    onClick={() => {}}
-                    style={{ marginRight: 5 }}
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </Box>
-        </Grid>
-      </Grid> */}
     </Box>
   );
 };

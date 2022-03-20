@@ -29,7 +29,7 @@ const Qcomment = ({ data }) => {
         <Avatar
           alt="user"
           src={
-            data.createdBy?.img ??
+            data?.createdBy?.img ??
             "http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png"
           }
           style={{
@@ -39,13 +39,13 @@ const Qcomment = ({ data }) => {
           }}
         />
         <Typography variant="body1" style={{ textTransform: "none" }}>
-          {data.createdBy
+          {data?.createdBy
             ? `${data.createdBy.firstname} ${data.createdBy.lastname}`
             : "Anonymous"}
         </Typography>
       </Button>
       <Typography variant="body2" style={{ marginBottom: 10 }}>
-        {data.body}
+        {data?.body}
       </Typography>
       <Box
         style={{
@@ -57,7 +57,7 @@ const Qcomment = ({ data }) => {
       >
         <Box>
           <Typography variant="caption" style={{ textTransform: "none" }}>
-            {ShowTime(data.createdAt)}
+            {ShowTime(data?.createdAt)}
           </Typography>
         </Box>
         <Box style={{ display: "flex", alignItems: "center" }}>

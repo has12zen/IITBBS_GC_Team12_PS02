@@ -9,13 +9,20 @@ import {
   Avatar,
   Button,
   TextField,
+  Checkbox,
 } from "@mui/material";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ShowTime from "../../misc/ShowTime";
 import parser from "html-react-parser";
 import Qcomment from "./Comment";
 const Answer = ({ data }) => {
+  const [upv, setUpv] = useState(false);
+  const [dv, setDv] = useState(false);
+  const [cupv, setCupv] = useState(30);
+  const [cdv, setCdv] = useState(4);
   const [comment, setComment] = useState(false);
   const [commentText, setCommentText] = useState("");
   console.log(data, "answer");
@@ -81,13 +88,42 @@ const Answer = ({ data }) => {
             /> */}
           </Box>
           <Box style={{ display: "flex", alignItems: "center" }}>
-            <ThumbUpIcon style={{ marginRight: 3 }} />
+            <Checkbox
+              icon={<ThumbUpOutlinedIcon />}
+              checkedIcon={<ThumbUpIcon />}
+              style={{ marginRight: 3, cursor: "pointer" }}
+              onClick={() => {
+                if (upv) {
+                  setUpv(false);
+                  setCupv(cupv - 1);
+                } else {
+                  setUpv(true);
+                  setCupv(cupv + 1);
+                }
+              }}
+              disabled={dv}
+            />
             <Typography variant="button" style={{ marginRight: 10 }}>
-              30
+              {cupv}
             </Typography>
-            <ThumbDownIcon style={{ marginRight: 3 }} />
+
+            <Checkbox
+              icon={<ThumbDownOutlinedIcon />}
+              checkedIcon={<ThumbDownIcon />}
+              style={{ marginRight: 3, cursor: "pointer" }}
+              onClick={() => {
+                if (dv) {
+                  setDv(false);
+                  setCdv(cdv - 1);
+                } else {
+                  setDv(true);
+                  setCdv(cdv + 1);
+                }
+              }}
+              disabled={upv}
+            />
             <Typography variant="button" style={{ marginRight: 5 }}>
-              1
+              {cdv}
             </Typography>
           </Box>
         </Box>
