@@ -12,13 +12,15 @@ import {
 import parser from "html-react-parser";
 //import comment here
 import Comment from "./Comment";
+import { calculateVote } from "./utils/hadler";
 
-const Qcomponent = (data) => {
-  console.log(data, data.data.body, "Qcompoent");
+const Qcomponent = ({ data }) => {
+  const votes = calculateVote(data.votes);
+  console.log(data, data.body, votes, "Qcompoent");
   return (
     <Box style={{ ...styles.grid, textAlign: "left", marginBottom: 10 }}>
       <Typography variant="h4">{data.title}</Typography>
-      <Typography variant="body1">{parser(data.body)}</Typography>
+      <div variant="body1">{parser(data.body)}</div>
       <Box style={{ textAlign: "left", padding: 5 }}>
         <Typography style={{ textAlign: "left", padding: 5 }}>
           Posted by: {data.createdBy.firstname}
