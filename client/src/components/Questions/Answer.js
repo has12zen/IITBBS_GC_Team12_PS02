@@ -37,6 +37,7 @@ const Answer = ({ data, callBack }) => {
       isComment: true,
       isPrivate: cpri,
     });
+    setCommentText("");
     callBack();
   };
 
@@ -189,7 +190,7 @@ const Answer = ({ data, callBack }) => {
                 setCpri(event.target.checked);
               }}
             />
-            <Typography variant="h6">Make this question private</Typography>
+            <Typography variant="h6">Anonymize</Typography>
           </Box>
         </Box>
       )}

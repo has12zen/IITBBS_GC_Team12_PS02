@@ -123,7 +123,7 @@ const AskQ = ({ user }) => {
             setPri(event.target.checked);
           }}
         />
-        <Typography variant="h6">Make this question private</Typography>
+        <Typography variant="h6">Anonymize</Typography>
       </Box>
       <Box>
         {simpleTags?.map((tag, key) => {
