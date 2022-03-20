@@ -33,8 +33,8 @@ const styles = {
 const Qcomponent = ({ data, callBack }) => {
   const [upv, setUpv] = useState(false);
   const [dv, setDv] = useState(false);
-  const [cupv, setCupv] = useState(30);
-  const [cdv, setCdv] = useState(4);
+  const [cupv, setCupv] = useState(data.votes.length);
+  const [cdv, setCdv] = useState(0);
   const [comment, setComment] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [ans, setAns] = useState(false);
@@ -65,6 +65,8 @@ const Qcomponent = ({ data, callBack }) => {
     setAnsText("");
     callBack();
   };
+
+  console.log(data, "Answer");
 
   const labels = ["git", "version-control", "git-commit", "undo"];
 

@@ -23,8 +23,8 @@ import axios from "axios";
 const Answer = ({ data, callBack }) => {
   const [upv, setUpv] = useState(false);
   const [dv, setDv] = useState(false);
-  const [cupv, setCupv] = useState(30);
-  const [cdv, setCdv] = useState(4);
+  const [cupv, setCupv] = useState(data.votes.length);
+  const [cdv, setCdv] = useState(0);
   const [comment, setComment] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [cpri, setCpri] = useState(false);

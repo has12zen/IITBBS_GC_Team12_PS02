@@ -19,8 +19,8 @@ import parser from "html-react-parser";
 const Qcomment = ({ data }) => {
   const [upv, setUpv] = useState(false);
   const [dv, setDv] = useState(false);
-  const [cupv, setCupv] = useState(30);
-  const [cdv, setCdv] = useState(4);
+  const [cupv, setCupv] = useState(0);
+  const [cdv, setCdv] = useState(0);
   console.log(data, "comments");
 
   return (
