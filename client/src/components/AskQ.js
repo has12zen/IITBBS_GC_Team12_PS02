@@ -19,14 +19,22 @@ const AskQ = ({ user }) => {
   const [question, setQuestion] = useState("");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
+
+  const createPost = async (data) => {
+    try {
+      const response = await axios.post("/api/posts", data);
+      setMessage(response.data);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      console.log(err.response);
+    }
+  };
+
   const mutation = useMutation(createPost, {
     retry: 3,
   });
-  async function createPost(data) {
-    const response = await axios.post("/api/posts", data);
-    setMessage(response.data);
-    return response.data;
-  }
+
   const [label, setLabel] = useState("");
   const [pri, setPri] = useState(false);
   const labels = [
@@ -50,6 +58,7 @@ const AskQ = ({ user }) => {
     "Others",
   ];
   const [tags, setTags] = useState(labels);
+
   return (
     <Box style={{ marginTop: 20, marginBottom: 20 }}>
       <Typography variant="h4">Start a discussion</Typography>

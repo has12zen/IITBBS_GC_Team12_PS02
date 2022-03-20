@@ -14,9 +14,17 @@ import parser from "html-react-parser";
 import Comment from "./Comment";
 import { calculateVote } from "./utils/hadler";
 
+const styles = {
+  grid: {
+    backgroundColor: "rgba(0,0,0,0.1)",
+    borderRadius: 5,
+    padding: 10,
+  },
+};
+
 const Qcomponent = ({ data }) => {
-  const votes = calculateVote(data.votes);
-  console.log(data, data.body, votes, "Qcompoent");
+  console.log(data);
+
   return (
     <Box style={{ ...styles.grid, textAlign: "left", marginBottom: 10 }}>
       <Typography variant="h4">{data.title}</Typography>
@@ -28,14 +36,6 @@ const Qcomponent = ({ data }) => {
       </Box>
     </Box>
   );
-};
-
-const styles = {
-  grid: {
-    backgroundColor: "rgba(0,0,0,0.1)",
-    borderRadius: 5,
-    padding: 10,
-  },
 };
 
 export default Qcomponent;

@@ -79,7 +79,7 @@ const Home = ({ user }) => {
                   data={allDiscussions.sort((a, b) => {
                     const atime = new Date(a.createdAt);
                     const btime = new Date(b.createdAt);
-                    return btime.getTime() - atime.getTime();
+                    return atime.getTime() - btime.getTime();
                   })}
                 />
               ) : (
@@ -88,7 +88,7 @@ const Home = ({ user }) => {
                   data={allDiscussions.sort((a, b) => {
                     const atime = new Date(a.createdAt);
                     const btime = new Date(b.createdAt);
-                    return atime.getTime() - btime.getTime();
+                    return btime.getTime() - atime.getTime();
                   })}
                 />
               ))}

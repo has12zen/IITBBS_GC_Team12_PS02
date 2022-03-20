@@ -17,7 +17,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import NavMenu from "./NavMenu";
 
-const Navbar = ({ user, setUser }) => {
+const Navbar = ({ user, setUser, setLoad }) => {
   const navigate = useNavigate();
 
   const [menuState, setMenuState] = useState({ open: false, anchor: null });
@@ -83,6 +83,7 @@ const Navbar = ({ user, setUser }) => {
         <NavMenu
           anchor={menuState.anchor}
           open={menuState.open}
+          setLoad={setLoad}
           handleClose={() => {
             setMenuState({ anchor: null, open: false });
           }}

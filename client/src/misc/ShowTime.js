@@ -1,3 +1,5 @@
+import { prepend } from "domutils";
+
 const months = [
   "Jan",
   "Feb",
@@ -13,15 +15,16 @@ const months = [
   "Dec",
 ];
 
+const prependZero = (num) => {
+  if (num < 10) return `0${num}`;
+  return num;
+};
+
 const showDate = (day) => {
   let date = "";
   let suffix = "";
 
-  if (day < 10) {
-    date = `0${day}`;
-  }
-
-  date = `${day}`;
+  date = prependZero(day);
 
   if (date[0] === "1") suffix = "th";
   else if (date[1] === "1") suffix = "st";
@@ -49,9 +52,13 @@ const ShowTime = (time) => {
     day === new Date().getDate()
   ) {
     if (hours < 12) {
-      return `${hours === 0 ? 12 : hours}:${minutes} am`;
+      return `${hours === 0 ? 12 : prependZero(hours)}:${prependZero(
+        minutes
+      )} am`;
     }
-    return `${hours - 12}:${minutes} pm`;
+    return `${
+      hours === 12 ? prependZero(hours) : prependZero(hours - 12)
+    }:${prependZero(minutes)} pm`;
   }
 
   return (

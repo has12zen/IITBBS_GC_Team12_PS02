@@ -1,6 +1,7 @@
 import * as React from "react";
 import { GoogleLogout } from "react-google-login";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import {
   Avatar,
@@ -19,7 +20,7 @@ import { PostAdd, Home, Person, Logout } from "@mui/icons-material";
 
 import { CLIENT_ID } from "../../constants";
 
-const LogoutButton = () => {
+const LogoutButton = ({ handleClick, setLoad }) => {
   return (
     <GoogleLogout
       clientId={CLIENT_ID}
@@ -28,6 +29,7 @@ const LogoutButton = () => {
           <div
             style={{ display: "flex", alignItems: "center" }}
             onClick={() => {
+              setLoad(true);
               renderProps.onClick();
             }}
           >
@@ -38,15 +40,26 @@ const LogoutButton = () => {
           </div>
         );
       }}
-      onLogoutSuccess={() => {
-        window.location.reload();
-      }}
+      onLogoutSuccess={handleClick}
     />
   );
 };
 
-const NavMenu = ({ anchor, open, handleClose }) => {
+const NavMenu = ({ anchor, open, handleClose, setLoad }) => {
   const navigate = useNavigate();
+
+  const logout = () => {
+    axios
+      .post("/api/auth/logout")
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+        window.location.reload();
+      });
+  };
 
   return (
     <Paper sx={{ width: 320, maxWidth: "100%", backgroundColor: "red" }}>
@@ -58,6 +71,8 @@ const NavMenu = ({ anchor, open, handleClose }) => {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <MenuList style={{ outline: "none" }}>
           <MenuItem
@@ -99,7 +114,7 @@ const NavMenu = ({ anchor, open, handleClose }) => {
               <Logout fontSize="small" />
             </ListItemIcon> */}
             <ListItemText>
-              <LogoutButton />
+              <LogoutButton setLoad={setLoad} handleClick={logout} />
             </ListItemText>
           </MenuItem>
         </MenuList>
