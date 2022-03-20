@@ -32,15 +32,17 @@ const Question = () => {
   );
   const faces = [];
   const pushPeopleFaces = (data) => {
-    faces.push({
-      name: data.createdBy.firstname,
-      image: data.createdBy.img,
-    });
-    data.subPosts.forEach((subPost) => {
+    if (data.createdBy)
       faces.push({
-        name: subPost.createdBy.firstname,
-        image: subPost.createdBy.img,
+        name: data.createdBy.firstname,
+        image: data.createdBy.img,
       });
+    data.subPosts.forEach((subPost) => {
+      if (subPost.createdBy)
+        faces.push({
+          name: subPost.createdBy.firstname,
+          image: subPost.createdBy.img,
+        });
     });
   };
   if (isSuccess) {

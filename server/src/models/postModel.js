@@ -15,10 +15,13 @@ const postSchema = new Schema(
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
     isComment: Boolean,
     parentId: {
+      type: Schema.Types.ObjectId,
+      ref: "Post",
+    },
+    discussionId: {
       type: Schema.Types.ObjectId,
       ref: "Post",
     },

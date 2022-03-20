@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Typography, Chip, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import parse from "html-react-parser";
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 
 import ForumIcon from "@mui/icons-material/Forum";
 import ShowTime from "../../misc/ShowTime";
@@ -72,12 +73,14 @@ const Ques = ({ user, data, hideCreator = false }) => {
             onClick={(event) => {
               event.stopPropagation();
 
-              console.log("clicked");
-              navigate(`/user/${data.createdBy._id}`);
+              if (data.createdBy) navigate(`/user/${data.createdBy._id}`);
             }}
           >
             <Avatar
-              src={data.createdBy.img}
+              src={
+                data.createdBy?.img ??
+                "http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png"
+              }
               style={{
                 width: 30,
                 height: 30,
@@ -85,7 +88,9 @@ const Ques = ({ user, data, hideCreator = false }) => {
               }}
             />
             <Typography variant="button" style={{ textTransform: "none" }}>
-              {data.createdBy.firstname} {data.createdBy.lastname}
+              {data.createdBy
+                ? `${data.createdBy.firstname} ${data.createdBy.lastname}`
+                : "Anonymous"}
             </Typography>
           </Box>
         )}

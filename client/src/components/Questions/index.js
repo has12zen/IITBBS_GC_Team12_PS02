@@ -45,15 +45,17 @@ const QuestionPage = () => {
   const faces = [];
 
   const pushPeopleFaces = (data) => {
-    faces.push({
-      name: data?.createdBy.firstname,
-      image: data?.createdBy.img,
-    });
-    data?.subPosts.forEach((subPost) => {
+    if (data.createdBy)
       faces.push({
-        name: subPost.createdBy.firstname,
-        image: subPost.createdBy.img,
+        name: data?.createdBy.firstname,
+        image: data?.createdBy.img,
       });
+    data?.subPosts.forEach((subPost) => {
+      if (subPost.createdBy)
+        faces.push({
+          name: subPost.createdBy.firstname,
+          image: subPost.createdBy.img,
+        });
     });
   };
 
@@ -84,6 +86,7 @@ const QuestionPage = () => {
                 />
               </Box>
             )}
+            {/* <Check */}
             <Box style={{ marginTop: 20, marginBottom: 20 }}>
               <Chip
                 variant="outlined"
@@ -105,22 +108,24 @@ const QuestionPage = () => {
             {/* <Answer /> */}
           </Grid>
           <Grid item xs={2}>
-            <Box style={{ ...styles.grid, textAlign: "center" }}>
-              <Typography variant="h6">People</Typography>
-              <List>
-                {faces.map((person, key) => (
-                  <ListItem style={styles.list} key={key}>
-                    <Chip
-                      avatar={<Avatar alt="Natacha" src={person.image} />}
-                      label={person.name}
-                      key={key}
-                      onClick={() => {}}
-                      style={{ marginRight: 5 }}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            </Box>
+            {faces.length > 0 && (
+              <Box style={{ ...styles.grid, textAlign: "center" }}>
+                <Typography variant="h6">People</Typography>
+                <List>
+                  {faces.map((person, key) => (
+                    <ListItem style={styles.list} key={key}>
+                      <Chip
+                        avatar={<Avatar alt="Natacha" src={person.image} />}
+                        label={person.name}
+                        key={key}
+                        onClick={() => {}}
+                        style={{ marginRight: 5 }}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+            )}
             {/* {data?.subPosts.map((subPost, key) => {
               <Answer key={key} data={subPost} />;
             })} */}

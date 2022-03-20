@@ -26,7 +26,10 @@ const Answer = ({ data }) => {
           <Button style={{ paddingLeft: 0, marginBottom: 10 }}>
             <Avatar
               alt="user"
-              src={data.createdBy.img}
+              src={
+                data.createdBy?.img ??
+                "http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png"
+              }
               style={{
                 marginRight: 10,
                 backgroundColor: "rgb(255,255,255)",
@@ -37,7 +40,9 @@ const Answer = ({ data }) => {
               variant="body1"
               style={{ textTransform: "none", color: "rgb(90,90,90)" }}
             >
-              {data.createdBy.firstname}
+              {data.createdBy
+                ? `${data.createdBy.firstname} ${data.createdBy.lastname}`
+                : "Anonymous"}
             </Typography>
           </Button>
           <Box>

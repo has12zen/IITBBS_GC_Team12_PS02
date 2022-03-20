@@ -116,7 +116,10 @@ const Qcomponent = ({ data }) => {
             <Button style={{ paddingLeft: 0 }}>
               <Avatar
                 alt="user"
-                src={data.createdBy.img}
+                src={
+                  data.createdBy?.img ??
+                  "http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png"
+                }
                 style={{
                   marginRight: 10,
                   backgroundColor: "rgb(255,255,255)",
@@ -124,7 +127,9 @@ const Qcomponent = ({ data }) => {
                 }}
               />
               <Typography variant="body1" style={{ textTransform: "none" }}>
-                {data.createdBy.firstname}
+                {data.createdBy
+                  ? `${data.createdBy.firstname} ${data.createdBy.lastname}`
+                  : "Anonymous"}
               </Typography>
             </Button>
           </Box>
