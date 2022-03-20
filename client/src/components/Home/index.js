@@ -7,11 +7,14 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import Discussions from "../Discussions";
 
-const topics = ["Internship", "Placements", "Projects", "Fests"];
 const Home = ({ user }) => {
   const [issort, setIsSort] = useState(false);
   const navigate = useNavigate();
   const [allDiscussions, setAllDiscussions] = useState(null);
+
+  const [tags, setTags] = useState([]);
+
+  const topics = [];
 
   useEffect(() => {
     axios
@@ -20,6 +23,17 @@ const Home = ({ user }) => {
         console.log(res.data.data.doc);
 
         setAllDiscussions(res.data.data.doc);
+        let labels = {};
+        res.data.data.doc.map((discussion) => {
+          discussion.labels.map((label) => {
+            if (!labels[label]) {
+              labels[label]++;
+            } else {
+              labels[label] = 1;
+            }
+          });
+        });
+        setTags(labels);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -53,7 +67,7 @@ const Home = ({ user }) => {
         </Grid>
       </Box>
       <Grid container spacing={2}>
-        <Grid item xs={2}>
+        {/* <Grid item xs={2}>
           <Box
             style={{
               ...styles.grid,
@@ -69,8 +83,8 @@ const Home = ({ user }) => {
               <ListItem style={styles.list}>Topics</ListItem>
             </List>
           </Box>
-        </Grid>
-        <Grid item xs={8}>
+        </Grid> */}
+        <Grid item xs={10}>
           <Box style={{ padding: 0 }}>
             {allDiscussions &&
               (issort ? (
@@ -100,7 +114,7 @@ const Home = ({ user }) => {
               <Typography variant="h6">Hot Topics</Typography>
               <Box>
                 <List>
-                  {topics.map((topic, key) => (
+                  {Object.keys(tags)?.map((topic, key) => (
                     <ListItem style={styles.list} key={key}>
                       {topic}
                     </ListItem>

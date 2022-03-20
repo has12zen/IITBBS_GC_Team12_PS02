@@ -26,7 +26,7 @@ const styles = {
   grid: {
     backgroundColor: "white",
     borderRadius: 5,
-    padding: 10,
+    // padding: 10,
   },
 };
 
@@ -41,9 +41,6 @@ const Qcomponent = ({ data, callBack }) => {
   const [ansText, setAnsText] = useState("");
   const [cpri, setCpri] = useState(false);
   const [apri, setApri] = useState(false);
-  console.log(data);
-
-  console.log(data, "Question");
 
   const saveComment = async () => {
     const resp = await axios.post("/api/posts/", {
@@ -78,6 +75,10 @@ const Qcomponent = ({ data, callBack }) => {
           paddingBottom: 0,
           boxShadow: "0px 0px 15px 0px rgba(0,0,0,0.5)",
           backgroundColor: "rgba(200,200,200,0.3)",
+          paddingTop: 20,
+          paddingRight: 20,
+          paddingLeft: 20,
+          paddingBottom: 10,
         }}
       >
         <Typography variant="h4">{data.title}</Typography>
@@ -85,7 +86,7 @@ const Qcomponent = ({ data, callBack }) => {
           {parser(data.body)}
         </Typography>
         <Box>
-          {labels.map((label, key) => (
+          {data.labels.map((label, key) => (
             <Chip
               label={label}
               key={key}
@@ -96,7 +97,8 @@ const Qcomponent = ({ data, callBack }) => {
         </Box>
         <Box
           style={{
-            padding: 5,
+            paddingTop: 5,
+            paddingBottom: 5,
             display: "flex",
             alignItems: "flex-end",
             justifyContent: "space-between",
@@ -104,25 +106,45 @@ const Qcomponent = ({ data, callBack }) => {
         >
           <Box>
             {!ans && (
-              <Chip
-                variant="outlined"
-                label={comment ? "Submit" : "Add Comment"}
-                onClick={() => {
-                  if (comment) {
-                    saveComment();
-                  }
-                  setComment(!comment);
-                }}
-                style={{
-                  margin: 10,
-                  backgroundColor: "rgb(255,255,255)",
-                  color: "rgb(0,0,255)",
-                }}
-              />
+              <Box style={{ display: "flex", alignItems: "center" }}>
+                {comment && (
+                  <Chip
+                    variant="outlined"
+                    label="Cancel"
+                    onClick={() => {
+                      setCommentText("");
+                      setComment(!comment);
+                    }}
+                    style={{
+                      marginTop: 10,
+                      marginRight: 5,
+                      backgroundColor: "rgb(255,255,255)",
+                      color: "rgb(0,0,255)",
+                    }}
+                  />
+                )}
+                <Chip
+                  variant="outlined"
+                  label={comment ? "Submit" : "Add Comment"}
+                  onClick={() => {
+                    if (comment) {
+                      saveComment();
+                    }
+                    setComment(!comment);
+                  }}
+                  style={{
+                    marginTop: 10,
+                    backgroundColor: "rgb(255,255,255)",
+                    color: "rgb(0,0,255)",
+                  }}
+                />
+              </Box>
             )}
           </Box>
-          <Box>
-            <Box style={{ display: "flex", alignItems: "center" }}>
+          <Box style={{ display: "flex", alignItems: "flex-end" }}>
+            <Box
+              style={{ display: "flex", alignItems: "center", marginRight: 10 }}
+            >
               <Checkbox
                 icon={<ThumbUpOutlinedIcon />}
                 checkedIcon={<ThumbUpIcon />}
@@ -255,21 +277,38 @@ const Qcomponent = ({ data, callBack }) => {
       )}
       <Box style={{ marginTop: 20, marginBottom: 20 }}>
         {!comment && (
-          <Chip
-            variant="outlined"
-            label={ans ? "Submit" : "Add Answer"}
-            onClick={() => {
-              if (ans) {
-                saveAnswer();
-              }
-              setAns(!ans);
-            }}
-            style={{
-              marginRight: 5,
-              backgroundColor: "rgb(255,255,255)",
-              color: "rgb(0,0,255)",
-            }}
-          />
+          <Box style={{ display: "flex", alignItems: "center" }}>
+            {ans && (
+              <Chip
+                variant="outlined"
+                label="Cancel"
+                onClick={() => {
+                  setAnsText("");
+                  setAns(!ans);
+                }}
+                style={{
+                  marginRight: 5,
+                  backgroundColor: "rgb(255,255,255)",
+                  color: "rgb(0,0,255)",
+                }}
+              />
+            )}
+            <Chip
+              variant="outlined"
+              label={ans ? "Submit" : "Add Answer"}
+              onClick={() => {
+                if (ans) {
+                  saveAnswer();
+                }
+                setAns(!ans);
+              }}
+              style={{
+                marginRight: 5,
+                backgroundColor: "rgb(255,255,255)",
+                color: "rgb(0,0,255)",
+              }}
+            />
+          </Box>
         )}
       </Box>
     </Box>

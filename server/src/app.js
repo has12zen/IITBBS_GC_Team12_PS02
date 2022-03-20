@@ -8,6 +8,8 @@ const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
 const voteRouter = require("./routes/voteRoutes");
 
+const path = require("path");
+
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const morganMiddleware = require("./utils/requestLogger");

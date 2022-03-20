@@ -71,7 +71,7 @@ exports.discussion = catchAsync(async (req, res, next) => {
     },
     {
       path: "createdBy",
-      select: "firstname lastame _id img role",
+      select: "firstname lastname _id img role",
     },
   ]);
 

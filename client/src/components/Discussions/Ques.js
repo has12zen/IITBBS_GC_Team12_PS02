@@ -19,6 +19,7 @@ const Ques = ({ user, data, hideCreator = false }) => {
         borderRadius: 5,
         marginBottom: 10,
         cursor: "pointer",
+        boxShadow: "0px 0px 15px rgba(50,50,50,0.7)",
       }}
       onClick={() => {
         navigate(`/discussion/${data._id}`);
@@ -26,7 +27,7 @@ const Ques = ({ user, data, hideCreator = false }) => {
     >
       <Typography variant="h4">{data.title}</Typography>
       <Box>
-        {labels.map((label, key) => (
+        {data.labels.map((label, key) => (
           <Chip
             label={label}
             key={key}

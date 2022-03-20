@@ -29,7 +29,7 @@ const QuestionPage = () => {
     axios
       .get(`/api/posts/${id}`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         // setDiscussions(res.data);
         setData(res.data);
         setSuccess(true);
@@ -67,22 +67,25 @@ const QuestionPage = () => {
   }
 
   useEffect(() => {
-    console.log({ data });
+    // console.log({ data });
   }, [data]);
 
   return (
-    <Box style={{ marginTop: 20, marginLeft: 20, marginRight: 20 }}>
+    <Box style={{ margin: 20 }}>
       {loading ? (
         <div>Loading...</div>
       ) : (
         <Grid container spacing={2}>
           <Grid item xs={10}>
-            {isSuccess && data && <Question data={data} callBack = {getDiscussion} />}
+            {isSuccess && data && (
+              <Question data={data} callBack={getDiscussion} />
+            )}
             {/* <Question /> */}
 
             {data?.subPosts.map((subPost, key) => {
-              console.log("subposts");
-              return <Answer key={key} data={subPost} />;
+              return (
+                <Answer key={key} data={subPost} callBack={getDiscussion} />
+              );
             })}
             {/* <Answer /> */}
           </Grid>

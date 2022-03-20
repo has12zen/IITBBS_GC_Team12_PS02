@@ -18,14 +18,30 @@ import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ShowTime from "../../misc/ShowTime";
 import parser from "html-react-parser";
 import Qcomment from "./Comment";
-const Answer = ({ data }) => {
+import axios from "axios";
+
+const Answer = ({ data, callBack }) => {
   const [upv, setUpv] = useState(false);
   const [dv, setDv] = useState(false);
   const [cupv, setCupv] = useState(30);
   const [cdv, setCdv] = useState(4);
   const [comment, setComment] = useState(false);
   const [commentText, setCommentText] = useState("");
-  console.log(data, "answer");
+  const [cpri, setCpri] = useState(false);
+
+  const saveComment = async () => {
+    const resp = await axios.post("/api/posts/", {
+      body: commentText,
+      parentId: data._id,
+      discussionId: data.parentId,
+      isComment: true,
+      isPrivate: cpri,
+    });
+    callBack();
+  };
+
+  console.log(data, "Answer");
+
   return (
     <Box>
       <Box style={{ ...styles.grid, marginBottom: 5 }}>
@@ -69,23 +85,38 @@ const Answer = ({ data }) => {
             alignItems: "flex-end",
           }}
         >
-          <Box>
-            <Button
-              variant="button"
-              style={{ color: "rgba(120,120,120)", padding: 0 }}
-            >
-              Add Comment
-            </Button>
-            {/* <Chip
+          <Box style={{ display: "flex", alignItems: "center" }}>
+            {comment && (
+              <Chip
+                variant="outlined"
+                label="Cancel"
+                onClick={() => {
+                  setCommentText("");
+                  setComment(!comment);
+                }}
+                style={{
+                  marginTop: 10,
+                  marginRight: 5,
+                  backgroundColor: "rgb(255,255,255)",
+                  color: "rgb(0,0,255)",
+                }}
+              />
+            )}
+            <Chip
               variant="outlined"
-              label="Add comment"
-              onClick={() => {}}
-              style={{
-                marginRight: 5,
-                backgroundColor: "rgb(255,255,255)",
-                color: "rgb(120,120,120)",
+              label={comment ? "Submit" : "Add Comment"}
+              onClick={() => {
+                if (comment) {
+                  saveComment();
+                }
+                setComment(!comment);
               }}
-            /> */}
+              style={{
+                marginTop: 10,
+                backgroundColor: "rgb(255,255,255)",
+                color: "rgb(0,0,255)",
+              }}
+            />
           </Box>
           <Box style={{ display: "flex", alignItems: "center" }}>
             <Checkbox
@@ -129,46 +160,41 @@ const Answer = ({ data }) => {
         </Box>
       </Box>
       {comment && (
-        <TextField
-          id="outlined-multiline-static"
-          label="Comment"
-          multiline
-          rows={4}
-          variant="outlined"
-          style={{
-            width: "100%",
-            marginTop: 20,
-            borderRadius: 5,
-            border: "1px solid rgba(0,0,0,0.3)",
-          }}
-          value={commentText}
-          onChange={(e) => setCommentText(e.target.value)}
-        />
-      )}
-      <Grid
-        container
-        style={
-          {
-            // borderTopWidth: 1,
-            // borderTopStyle: "solid",
-            // borderColor: "black",
-          }
-        }
-      >
-        <Grid item xs={2}>
-          <Chip
+        <Box>
+          <TextField
+            id="outlined-multiline-static"
+            label="Comment"
+            multiline
+            rows={4}
             variant="outlined"
-            label={comment ? "Submit" : "Add Comment"}
-            onClick={() => {
-              setComment(!comment);
-            }}
             style={{
-              margin: 10,
-              backgroundColor: "rgb(255,255,255)",
-              color: "rgb(0,0,255)",
+              width: "100%",
+              marginTop: 20,
+              borderRadius: 5,
+              border: "1px solid rgba(0,0,0,0.3)",
             }}
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
           />
-        </Grid>
+          <Box
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginTop: 20,
+              marginBottom: 20,
+            }}
+          >
+            <Checkbox
+              onChange={(event) => {
+                setCpri(event.target.checked);
+              }}
+            />
+            <Typography variant="h6">Make this question private</Typography>
+          </Box>
+        </Box>
+      )}
+      <Grid container>
+        <Grid item xs={2}></Grid>
         <Grid item xs={10}>
           {data?.comments?.map((comment, key) => (
             <Qcomment key={key} data={comment} />
