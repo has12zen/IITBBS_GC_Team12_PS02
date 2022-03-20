@@ -13,8 +13,17 @@ import parser from "html-react-parser";
 //import comment here
 import Comment from "./Comment";
 
-const Qcomponent = (data) => {
-  console.log(data, data.data.body, "Qcompoent");
+const styles = {
+  grid: {
+    backgroundColor: "rgba(0,0,0,0.1)",
+    borderRadius: 5,
+    padding: 10,
+  },
+};
+
+const Qcomponent = ({ data }) => {
+  console.log(data);
+
   return (
     <Box style={{ ...styles.grid, textAlign: "left", marginBottom: 10 }}>
       <Typography variant="h4">{data.title}</Typography>
@@ -26,14 +35,6 @@ const Qcomponent = (data) => {
       </Box>
     </Box>
   );
-};
-
-const styles = {
-  grid: {
-    backgroundColor: "rgba(0,0,0,0.1)",
-    borderRadius: 5,
-    padding: 10,
-  },
 };
 
 export default Qcomponent;

@@ -26,8 +26,8 @@ exports.verifyToken = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
-  console.log(req.user);
   let user = await User.findOne({ email: req.user.email });
+
   if (!user) return next(new AppError("User not found", 404));
   req.user = user;
 
@@ -66,4 +66,13 @@ exports.login = catchAsync(async (req, res, next) => {
   res.send(user);
 
   // next();
+});
+
+exports.logout = catchAsync(async (req, res, next) => {
+  res.cookie("jwt", "loggedout", {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+
+  res.status(200).json({ status: "success" });
 });

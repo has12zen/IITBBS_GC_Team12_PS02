@@ -22,6 +22,7 @@ const QuestionPage = () => {
   const [isSuccess, setSuccess] = useState(false);
   const [search] = useSearchParams();
   const { id } = useParams();
+
   useEffect(() => {
     axios
       .get(`/api/posts/${id}`)
@@ -37,7 +38,9 @@ const QuestionPage = () => {
         setLoading(false);
       });
   }, []);
+
   const faces = [];
+
   const pushPeopleFaces = (data) => {
     faces.push({
       name: data?.createdBy.firstname,
@@ -50,12 +53,15 @@ const QuestionPage = () => {
       });
     });
   };
+
   if (isSuccess) {
-    console.log(data, "data use in query");
     pushPeopleFaces(data);
   }
 
-  const labels = ["git", "version-control", "git-commit", "undo"];
+  useEffect(() => {
+    console.log({ data });
+  }, [data]);
+
   return (
     <Box style={{ marginTop: 20, marginLeft: 20, marginRight: 20 }}>
       {loading ? (

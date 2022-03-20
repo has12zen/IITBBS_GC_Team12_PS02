@@ -43,6 +43,7 @@ exports.discussion = catchAsync(async (req, res, next) => {
       select: "firstname lastame _id img role",
     },
   ]);
+
   res.send(discussion);
 });
 

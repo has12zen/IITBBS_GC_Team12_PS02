@@ -14,7 +14,7 @@ const userRoutes = (user, setUser, setLoad) => {
     return [
       {
         path: "/",
-        element: <Layout user={user} setUser={setUser} />,
+        element: <Layout user={user} setUser={setUser} setLoad={setLoad} />,
         children: [
           {
             path: "user",
