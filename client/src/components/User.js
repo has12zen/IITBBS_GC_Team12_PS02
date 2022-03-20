@@ -8,11 +8,11 @@ import Profile from "./Profile";
 const User = ({ user }) => {
   const navigate = useNavigate();
   const reqId = window.location.pathname.split("/")[2];
-  if (reqId === user._id) navigate("/profile");
+  if (reqId === user._id) navigate("/profile", { replace: true });
 
   const [reqUser, setReqUser] = useState(null);
 
-  useEffect(() => {
+  const getUser = () => {
     axios
       .get(`/api/user/${reqId}`)
       .then((res) => {
@@ -22,9 +22,14 @@ const User = ({ user }) => {
         console.log(err);
         console.log(err.response.data);
       });
+  };
+
+  useEffect(() => {
+    getUser();
   }, []);
 
-  if (reqUser) return <Profile user={reqUser} />;
+  if (reqUser)
+    return <Profile user={user} dispUser={reqUser} refreshUser={getUser} />;
 
   return (
     <div

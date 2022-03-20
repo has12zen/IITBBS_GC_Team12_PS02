@@ -1,8 +1,18 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Button, Grid, MenuItem, TextField, Typography } from "@mui/material";
+
+import {
+  Button,
+  Grid,
+  IconButton,
+  Menu,
+  MenuItem,
+  Popover,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { Edit, FormatListBulleted } from "@mui/icons-material";
+import { Edit, FormatListBulleted, MoreHoriz } from "@mui/icons-material";
 import Discussions from "../Discussions";
 
 const branches = ["CSE", "EE", "ECE", "CE", "ME", "MM"];
@@ -28,7 +38,7 @@ const graduationYears = () => {
   return years.reverse();
 };
 
-const Profile = ({ user, setUser, me = false }) => {
+const Profile = ({ user, dispUser, setUser, refreshUser }) => {
   const [discussions, setDiscussions] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,12 +46,15 @@ const Profile = ({ user, setUser, me = false }) => {
   const [updating, setUpdating] = useState(false);
   const [changed, setChanged] = useState(false);
 
+  const [openPopover, setOpenPopover] = useState(false);
+  const [popoverAnchor, setPopoverAnchor] = useState(false);
+
   const initState = {
-    bio: user.bio,
-    branch: user.branch,
-    degree: user.degree,
-    yearOfAdmission: user.yearOfAdmission,
-    yearOfGraduation: user.yearOfGraduation,
+    bio: dispUser.bio,
+    branch: dispUser.branch,
+    degree: dispUser.degree,
+    yearOfAdmission: dispUser.yearOfAdmission,
+    yearOfGraduation: dispUser.yearOfGraduation,
   };
 
   const [updatedProfile, setUpdatedProfile] = useState(initState);
@@ -62,15 +75,16 @@ const Profile = ({ user, setUser, me = false }) => {
       "yearOfAdmission",
       "yearOfGraduation",
     ];
-    const ind = fields.findIndex((fld) => user[fld] !== updatedProfile[fld]);
-    console.log({ ind });
+    const ind = fields.findIndex(
+      (fld) => dispUser[fld] !== updatedProfile[fld]
+    );
 
     setChanged(ind > -1);
   }, [updatedProfile]);
 
   useEffect(() => {
     axios
-      .get(`/api/posts/user/${user._id}`)
+      .get(`/api/posts/user/${dispUser._id}`)
       .then((res) => {
         console.log(res.data);
         setDiscussions(res.data);
@@ -101,7 +115,23 @@ const Profile = ({ user, setUser, me = false }) => {
       });
   };
 
-  console.log({ user });
+  const blacklistUser = (status) => {
+    axios
+      .patch(`/api/user/${dispUser._id}`, { isBlacklisted: status })
+      .then((res) => {
+        console.log(res);
+
+        refreshUser();
+
+        setEdit(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response.data);
+      });
+  };
+
+  console.log({ dispUser, user });
 
   if (!edit)
     return (
@@ -109,40 +139,90 @@ const Profile = ({ user, setUser, me = false }) => {
         <Grid container>
           <Grid item md={4} xs={12}>
             <div>
-              <img alt="profile_image" src={user.img} />
+              <img alt="profile_image" src={dispUser.img} />
             </div>
-            <Typography variant="h6">
-              {user.firstname + " " + user.lastname}
-            </Typography>
-            <Typography style={{ color: "grey" }}>{user.email}</Typography>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div>
+                <Typography variant="h6">
+                  {dispUser.firstname + " " + dispUser.lastname}
+                </Typography>
+              </div>
+              {user._id !== dispUser._id && user.role === "admin" && (
+                <>
+                  <IconButton
+                    color="primary"
+                    onClick={(event) => {
+                      setPopoverAnchor(event.currentTarget);
+                      setOpenPopover(true);
+                    }}
+                  >
+                    <MoreHoriz />
+                  </IconButton>
+                  <Popover
+                    open={openPopover}
+                    anchorEl={popoverAnchor}
+                    onClose={() => {
+                      setOpenPopover(false);
+                    }}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                  >
+                    {dispUser.isBlacklisted ? (
+                      <MenuItem
+                        onClick={() => {
+                          blacklistUser(false);
+                          setOpenPopover(false);
+                        }}
+                      >
+                        Whitelist user
+                      </MenuItem>
+                    ) : (
+                      <MenuItem
+                        onClick={() => {
+                          blacklistUser(true);
+                          setOpenPopover(false);
+                        }}
+                      >
+                        Blacklist user
+                      </MenuItem>
+                    )}
+                  </Popover>
+                </>
+              )}
+            </div>
+            <Typography style={{ color: "grey" }}>{dispUser.email}</Typography>
 
-            {user.bio && (
+            {dispUser.bio && (
               <Typography style={{ marginTop: "20px", fontStyle: "italic" }}>
-                {user.bio}
+                {dispUser.bio}
               </Typography>
             )}
 
-            {user.branch && <Typography>{user.branch}</Typography>}
-            {user.yearOfAdmission && (
-              <Typography>{user.yearOfAdmission}</Typography>
+            {dispUser.branch && <Typography>{dispUser.branch}</Typography>}
+            {dispUser.yearOfAdmission && (
+              <Typography>{dispUser.yearOfAdmission}</Typography>
             )}
-            {user.yearOfGraduation && (
-              <Typography>{user.yearOfGraduation}</Typography>
+            {dispUser.yearOfGraduation && (
+              <Typography>{dispUser.yearOfGraduation}</Typography>
             )}
 
-            <Button
-              variant="outlined"
-              startIcon={<Edit />}
-              style={{ margin: "20px 0px" }}
-              onClick={() => {
-                setEdit(true);
-              }}
-            >
-              Edit Profile
-            </Button>
+            {user._id === dispUser._id && (
+              <Button
+                variant="outlined"
+                startIcon={<Edit />}
+                style={{ margin: "20px 0px" }}
+                onClick={() => {
+                  setEdit(true);
+                }}
+              >
+                Edit Profile
+              </Button>
+            )}
           </Grid>
           <Grid item md={8} xs={12}>
-            <Discussions user={user} data={discussions} hideCreator />
+            <Discussions user={dispUser} data={discussions} hideCreator />
           </Grid>
         </Grid>
       </div>
@@ -153,13 +233,13 @@ const Profile = ({ user, setUser, me = false }) => {
       <Grid container>
         <Grid item md={4} xs={12}>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <img alt="profile_image" src={user.img} />
+            <img alt="profile_image" src={dispUser.img} />
           </div>
           <Typography variant="h6" align="center" style={{ marginTop: "10px" }}>
-            {user.firstname + " " + user.lastname}
+            {dispUser.firstname + " " + dispUser.lastname}
           </Typography>
           <Typography style={{ color: "grey" }} align="center">
-            {user.email}
+            {dispUser.email}
           </Typography>
         </Grid>
         <Grid item md={8} xs={12}>

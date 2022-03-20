@@ -32,7 +32,7 @@ const userRoutes = (user, setUser, setLoad) => {
           },
           {
             path: "/profile",
-            element: <Profile user={user} setUser={setUser} me />,
+            element: <Profile user={user} dispUser={user} setUser={setUser} />,
           },
           {
             path: "/user/:id",

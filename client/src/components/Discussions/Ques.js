@@ -8,7 +8,6 @@ import ShowTime from "../../misc/ShowTime";
 
 const Ques = ({ user, data, hideCreator = false }) => {
   const labels = ["Projects", "Fest", "Intern"];
-  console.log({ data });
   const navigate = useNavigate();
 
   return (
