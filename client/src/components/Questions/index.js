@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -12,21 +12,38 @@ import {
 import { useGetDiscussion } from "./utils/hadler";
 import Answer from "./Answer";
 import Question from "./Question";
+import axios from "axios";
 import { useSearchParams, useParams } from "react-router-dom";
 
 const QuestionPage = () => {
   const [body, setBody] = useState("");
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isSuccess, setSuccess] = useState(false);
   const [search] = useSearchParams();
   const { id } = useParams();
-  const { data, isLoading, isSuccess } = useGetDiscussion("discussion", id);
-  // console.log(id, "useParams");
+  useEffect(() => {
+    axios
+      .get(`/api/posts/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        // setDiscussions(res.data);
+        setData(res.data);
+        setSuccess(true);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, []);
   const faces = [];
   const pushPeopleFaces = (data) => {
     faces.push({
-      name: data.createdBy.firstname,
-      image: data.createdBy.img,
+      name: data?.createdBy.firstname,
+      image: data?.createdBy.img,
     });
-    data.subPosts.forEach((subPost) => {
+    data?.subPosts.forEach((subPost) => {
       faces.push({
         name: subPost.createdBy.firstname,
         image: subPost.createdBy.img,
@@ -41,12 +58,12 @@ const QuestionPage = () => {
   const labels = ["git", "version-control", "git-commit", "undo"];
   return (
     <Box style={{ marginTop: 20, marginLeft: 20, marginRight: 20 }}>
-      {isLoading ? (
+      {loading ? (
         <div>Loading...</div>
       ) : (
         <Grid container spacing={2}>
           <Grid item xs={10}>
-            <Question data={data} />
+            {isSuccess && data && <Question data={data} />}
           </Grid>
           <Grid item xs={2}>
             <Chip
@@ -59,7 +76,7 @@ const QuestionPage = () => {
                 color: "rgb(0,0,255)",
               }}
             />
-            {data.subPosts.map((subPost, key) => {
+            {data?.subPosts.map((subPost, key) => {
               <Answer key={key} data={subPost} />;
             })}
           </Grid>

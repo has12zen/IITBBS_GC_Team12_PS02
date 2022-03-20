@@ -4,14 +4,12 @@ import axios from "axios";
 export const useGetDiscussion = async (key, id) => {
   const getPosts = async () => {
     const data = await axios.get(`/api/posts/${id}`);
-    console.log(data.data, "data use useGetDiscussion query");
-    return { ...data.data.discussion };
+    // console.log(data.data, "data use useGetDiscussion query");
+    return { ...data.data };
   };
-  const { data, isError, isLoading, isSuccess } = useQuery(
-    "discussion",
-    getPosts
-  );
-  return { data, isError, isLoading, isSuccess };
+  const Query = await useQuery("discussion", getPosts);
+  // console.log(Query, "query )");
+  return Query;
 };
 
 export const useCreatePost = async (key, id, body) => {

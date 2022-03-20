@@ -14,6 +14,7 @@ import parser from "html-react-parser";
 import Comment from "./Comment";
 
 const Qcomponent = (data) => {
+  console.log(data, data.data.body, "Qcompoent");
   return (
     <Box style={{ ...styles.grid, textAlign: "left", marginBottom: 10 }}>
       <Typography variant="h4">{data.title}</Typography>
