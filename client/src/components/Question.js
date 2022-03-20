@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import jf from "../assets/images/1.jpg";
 import {
   Box,
@@ -16,100 +16,125 @@ import { useQuery } from "react-query";
 import axios from "axios";
 
 const Question = () => {
+  const [body, setBody] = useState("");
   const [search] = useSearchParams();
   const { id } = useParams();
-  console.log(id, "useParams");
+  // console.log(id, "useParams");
+  const getPosts = async () => {
+    const data = await axios.get(`/api/posts/${id}`);
+    console.log(data, "data use in query");
+    return { ...data.data.data.discussion };
+  };
+  const createAnswer = async () => {};
+  const { data, isError, isLoading, isSuccess } = useQuery(
+    "discussion",
+    getPosts
+  );
+  const faces = [];
+  const pushPeopleFaces = (data) => {
+    faces.push({
+      name: data.createdBy.firstname,
+      image: data.createdBy.img,
+    });
+    data.subPosts.forEach((subPost) => {
+      faces.push({
+        name: subPost.createdBy.firstname,
+        image: subPost.createdBy.img,
+      });
+    });
+  };
+  if (isSuccess) {
+    console.log(data, "data use in query");
+    pushPeopleFaces(data);
+  }
+
   const people = ["Harshit", "Sai Krishna", "Anuj", "Rohan"];
   const labels = ["git", "version-control", "git-commit", "undo"];
   return (
     <Box style={{ marginTop: 20, marginLeft: 20, marginRight: 20 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={10}>
-          <Box style={{ ...styles.grid, textAlign: "left", marginBottom: 10 }}>
-            <Typography variant="h4">
-              How do I undo the most recent local commits in Git?
-            </Typography>
-            <Typography variant="body1">
-              I accidentally committed the wrong files to Git but didn't push
-              the commit to the server yet. How can I undo those commits from
-              the local repository? The only way seems to be to copy the edits
-              in some kind of GUI text editor, then wipe the whole local clone,
-              then re-clone the repository, then re-applying the edits. However,
-              This can cause data loss. It's very hard to do this when only an
-              accidental git commit was run. Is there a better way?
-            </Typography>
-            <Box style={{ textAlign: "left", padding: 5 }}>
-              {labels.map((label, key) => (
-                <Chip
-                  label={label}
-                  key={key}
-                  onClick={() => {}}
-                  style={{ marginRight: 5 }}
-                />
-              ))}
-              <Typography style={{ textAlign: "left", padding: 5 }}>
-                Posted by: Kartikeya
-              </Typography>
-            </Box>
-          </Box>
-          <Grid container>
-            <Grid item xs={12}>
-              <Chip
-                variant="outlined"
-                label="Add comment"
-                onClick={() => {}}
-                style={{
-                  marginRight: 5,
-                  backgroundColor: "rgb(255,255,255)",
-                  color: "rgb(0,0,255)",
-                }}
-              />
-            </Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={10}>
-              <Qcomment />
-              <Qcomment />
-              <Qcomment />
-            </Grid>
-            <Grid item xs={12}>
-              <Chip
-                variant="outlined"
-                label="Add answer"
-                onClick={() => {}}
-                style={{
-                  marginRight: 5,
-                  backgroundColor: "rgb(255,255,255)",
-                  color: "rgb(0,0,255)",
-                }}
-              />
-            </Grid>
-          </Grid>
-          <Grid container>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={10}>
-              <Qcomment />
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={2}>
-          <Box style={{ ...styles.grid, textAlign: "center" }}>
-            <Typography variant="h6">People</Typography>
-            <List>
-              {people.map((person, key) => (
-                <ListItem style={styles.list} key={key}>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <Grid container spacing={2}>
+          <Grid item xs={10}>
+            <Box
+              style={{ ...styles.grid, textAlign: "left", marginBottom: 10 }}
+            >
+              <Typography variant="h4">{data.title}</Typography>
+              <Typography variant="body1">{data.body}</Typography>
+              <Box style={{ textAlign: "left", padding: 5 }}>
+                {labels.map((label, key) => (
                   <Chip
-                    avatar={<Avatar alt="Natacha" src={jf} />}
-                    label={person}
+                    label={label}
                     key={key}
                     onClick={() => {}}
                     style={{ marginRight: 5 }}
                   />
-                </ListItem>
-              ))}
-            </List>
-          </Box>
+                ))}
+                <Typography style={{ textAlign: "left", padding: 5 }}>
+                  Posted by: {data.createdBy.firstname}
+                </Typography>
+              </Box>
+            </Box>
+            <Grid container>
+              <Grid item xs={12}>
+                <Chip
+                  variant="outlined"
+                  label="Add comment"
+                  onClick={() => {}}
+                  style={{
+                    marginRight: 5,
+                    backgroundColor: "rgb(255,255,255)",
+                    color: "rgb(0,0,255)",
+                  }}
+                />
+              </Grid>
+              <Grid item xs={2}></Grid>
+              <Grid item xs={10}>
+                {data.subPosts.map((subPost, key) => {
+                  <Qcomment key={key} subPost={subPost} />;
+                })}
+              </Grid>
+              <Grid item xs={12}>
+                <Chip
+                  variant="outlined"
+                  label="Add answer"
+                  onClick={() => {}}
+                  style={{
+                    marginRight: 5,
+                    backgroundColor: "rgb(255,255,255)",
+                    color: "rgb(0,0,255)",
+                  }}
+                />
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid item xs={2}></Grid>
+              <Grid item xs={10}>
+                <Qcomment />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={2}>
+            <Box style={{ ...styles.grid, textAlign: "center" }}>
+              <Typography variant="h6">People</Typography>
+              <List>
+                {faces.map((person, key) => (
+                  <ListItem style={styles.list} key={key}>
+                    <Chip
+                      avatar={<Avatar alt="Natacha" src={person.image} />}
+                      label={person.name}
+                      key={key}
+                      onClick={() => {}}
+                      style={{ marginRight: 5 }}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </Box>
     // <div>
     //   <h1>Question</h1>

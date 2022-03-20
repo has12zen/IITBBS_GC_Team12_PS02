@@ -72,13 +72,13 @@ const Qans = () => {
     </Box>
   );
 };
-const Qcomment = () => {
+const Qcomment = (data) => {
   return (
     <Box style={{ ...styles.grid, marginBottom: 5 }}>
       <Button style={{ paddingLeft: 0 }}>
         <Avatar
           alt="user"
-          src={"https://i.pravatar.cc/300"}
+          src={data.img}
           style={{
             marginRight: 10,
             backgroundColor: "rgb(255,255,255)",
@@ -86,7 +86,7 @@ const Qcomment = () => {
           }}
         />
         <Typography variant="body1" style={{ textTransform: "none" }}>
-          User name
+          {data.firstname}
         </Typography>
         {/* <Chip
           avatar={<Avatar alt="Natacha" src={jf} />}
@@ -96,8 +96,7 @@ const Qcomment = () => {
         /> */}
       </Button>
       <Typography variant="body2" style={{ marginBottom: 10 }}>
-        For VsCode users , just type ctrl +shift +G and then click on three dot
-        ,ie , more options and then click on undo Last Commit
+        {data.body}
       </Typography>
       <Box
         style={{
@@ -113,12 +112,12 @@ const Qcomment = () => {
         <Box style={{ display: "flex", alignItems: "center" }}>
           <ThumbUpIcon style={{ marginRight: 3 }} />
           <Typography variant="button" style={{ marginRight: 10 }}>
-            30
+            {data.upvotes}
           </Typography>
 
           <ThumbDownIcon style={{ marginRight: 3 }} />
           <Typography variant="button" style={{ marginRight: 5 }}>
-            1
+            {data.downvotes}
           </Typography>
         </Box>
       </Box>

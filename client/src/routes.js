@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import Home from "./components/Home";
 import LandingPage from "./components/Landing";
 import Layout from "./components/Layout";
-import Question from "./components/Question";
+import Questions from "./components/Questions";
 import User from "./components/User";
 import AskQ from "./components/AskQ";
 import Profile from "./components/Profile";
@@ -19,10 +19,6 @@ const userRoutes = (user, setUser, setLoad) => {
           {
             path: "user",
             element: <User user={user} setUser={setUser} />,
-          },
-          {
-            path: "discussion/:id",
-            element: <Question />,
           },
           {
             path: "/",
@@ -44,7 +40,7 @@ const userRoutes = (user, setUser, setLoad) => {
           },
           {
             path: "/discussion/:id",
-            element: <Question />,
+            element: <Questions />,
           },
           // {
           //   path:'user',

@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const mongoose = require("mongoose");
 
+const postController = require("./controllers/postController");
 const app = require("./app");
 
 console.log("Starting app..");
@@ -17,6 +18,7 @@ mongoose
   .then(() => {
     console.log("✅ Connected to MongoDB!");
     console.log("Starting the server ...");
+    // postController.aggregatePosts();
 
     app.listen(PORT, () => {
       console.log(`✅ Server is running on PORT ${PORT}`);
